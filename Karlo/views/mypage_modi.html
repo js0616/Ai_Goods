@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png"/>
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="/css/mypage.css">
+</head>
+<body>
+    {% include "header.html"%}
+    <div class="container">
+        <!-- 사이드 -->
+        <div class="side">
+            <div class="side-left">
+                <ul class="list">
+                    <ul class="tabs">
+                      <a href="/user/{{user.user_id}}/mymodi"><li class="tab-link box1 current" data-tab="tab-1">회원정보</li></a>
+                      <a href="/user/{{user.user_id}}/myimage"><li class="tab-link box2 " data-tab="tab-2">이미지확인</li></a>
+                      <a href="/user/{{user.user_id}}/myorder"><li class="tab-link box3 " data-tab="tab-3">주문내역</li></a>
+                      </ul>
+                  </ul>
+            </div>
+        </div>
+        <!-- 메인 구성 -->
+        <div class="main">
+            
+            <div id="tab-1" class="tab-content current">
+              
+              <form id="form" action="/user/update" method="post">
+                <table> 
+                  {% if user.user_class == 0 %}
+                  <tr>
+                    <th>아이디</th>
+                    <td colspan="2"><input type="text" value='{{user.user_id}}' name="user_id" readonly id="user_id"></td>
+                  </tr>
+
+                  <tr >
+                    <th class="no_board">비밀번호</th>
+                    <td colspan="2" class="no_board"><input type="password" name="user_pw" id="user_pw"></td>
+                  </tr>
+                  <tr >
+                    <td class="error " ></td>
+                    <td id="error_pw3" class="error" colspan="2"></td>
+                  </tr>
+                  <tr >
+                    <th class="no_board"><label for="user_pw2">비밀번호 확인</label></th>
+                    <td colspan="2" class="no_board"><input type="password" name="user_pw2" id="user_pw2"></td>
+                  </tr>
+                  <tr>
+                    <td class="error"></td>
+                    <td id="error_pw2" class="error" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    {% endif %}
+                    <th><label for="user_nick">닉네임</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_nick}}" name="user_nick" id="user_nick" {% if user.user_class != 0 %} readonly {% endif %}></td>
+                  </tr>
+                  <tr>
+                    <th><label for="user_phone">연락처</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_phone}}" name="user_phone" id="user_phone"></td>
+                  </tr>
+                  <tr>
+                    <th><label for="zonecode">우편번호</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_post}}" name="user_post" id="zonecode" readonly></td>
+                  </tr>
+                  <tr>
+                    <th><label for="address">주소</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_addr}}" name="user_addr" id="address" readonly></td>
+                  </tr>
+                  <tr>
+                    <th><label for="address_detail">상세주소</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_addr_de}}" name="user_addr_de" id="address_detail" ></td>
+                  </tr>
+                  <tr>
+                    <th><label for="user_email">이메일</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_email}}" name="user_email" id="user_email" {% if user.user_class != 0 %} readonly {% endif %}></td>
+                  </tr>
+                  <tr>
+                    <th>성별</th>
+                    <td>{{ user.user_sex }}</td> 
+                  </tr>
+                  <tr>
+                    <th> <label for="user_age">나이</label></th>
+                    <td colspan="2"><input type="text" id="user_age" name="user_age" value="{{user.user_age}}"></td>
+                  </tr>
+                  <tr>
+                    <th><label for="user_birth">생일</label></th>
+                    <td colspan="2"><input type="text" id="user_birth" name="user_birth" value="{{user.user_birth}}"></td>
+                  </tr> 
+              </table>
+              <div class="user_btn">
+                <input type="submit" value="정보 수정하기" class="submit">
+
+              </div>
+              
+            </form>
+            
+          </div>
+        </div>
+        <!-- 사이드 -->
+        <div class="side"></div>
+    </div>
+    {% include "footer.html"%}
+  <script src="/public/js/jquery-3.7.0.js"></script>
+  <script>
+     
+      
+      function address(){
+          new daum.Postcode({
+              oncomplete: function(data) {
+                  $('#zonecode').val(data.zonecode)
+                  $('#address').val(data.address)
+              }
+          }).open();
+      }
+      $('#zonecode').on('click',()=>{
+          address()
+          $('#address_detail').focus()
+      })
+      $('#address').on('click',()=>{
+          address()
+          $('#address_detail').focus()
+      })
+
+
+      
+      // 경고메세지 
+      {% if user.user_class == 0 %}
+      // pw 확인
+      user_pw2.onblur = function(){
+        if(user_pw2.value != user_pw.value){
+          user_pw2.classList.add('invalid');
+          error_pw2.innerHTML = 'pw를 다시 확인해주세요'
+        }
+      }
+
+      user_pw2.onfocus = function(){
+        if (this.classList.contains('invalid')) {
+          // 사용자가 새로운 값을 입력하려고 하므로 에러 메시지를 지움
+          this.classList.remove('invalid');
+          error_pw2.innerHTML = "";
+        }
+      }
+
+
+      user_pw.onblur = function(){
+        if(user_pw.value.length < 8){
+          user_pw.classList.add('invalid');
+          error_pw3.innerHTML = 'pw를 8자리 이상 입력해주세요'
+        }
+      }
+
+      user_pw.onfocus = function(){
+        if (this.classList.contains('invalid')) {
+          // 사용자가 새로운 값을 입력하려고 하므로 에러 메시지를 지움
+          this.classList.remove('invalid');
+          error_pw3.innerHTML = "";
+        }
+      }
+      
+      {% endif %}
+      // email
+      
+      const form = document.getElementById('form');
+      const password = document.getElementById('user_pw');
+      const password2 = document.getElementById('user_pw2');
+
+      const validateInputs = () => {
+        {% if user.user_class == 0 %}
+        const passwordValue = password.value.trim();
+        const password2Value = password2.value.trim();
+
+        if (passwordValue === '') {
+            return false;
+        } else if (passwordValue.length < 8) {
+            return false;
+        } else {
+  
+        }
+    
+        if (password2Value === '') {
+            return false;
+        } else if (password2Value !== passwordValue) {
+            return false;
+        } else {
+        }
+        {% endif %}
+        return true;
+    };
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+  
+      if(validateInputs()){
+          form.submit();
+      }
+    });
+
+      
+
+      $('#updateImgForm').submit(function(event){
+        event.preventDefault();
+        fetch(`/images/${$('#updateImgForm #img_share').val()}`, {
+          method : "PATCH",
+          headers : {"Content-Type" : "application/json"},
+          body : JSON.stringify({
+            img_share : 1,
+          })
+        })
+        .then(() => {
+          alert("변경 성공");
+          window.location.replace("/user/{{user.user_id}}");
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+
+      $('#deleteImgForm').submit(function(event){
+        event.preventDefault();
+        fetch(`/images/${$('#deleteImgForm #img_del').val()}`, {
+          method : "DELETE",
+        })
+        .then(() => {
+          alert("삭제 성공");
+          window.location.replace("/user/{{user.user_id}}");
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+
+      function update_status(elem, no){
+            console.log(elem);
+            fetch(`/order/${no}`, { 
+                method : "PATCH",
+                headers : { "Content-Type" : "application/json" },
+                body : JSON.stringify({
+                    order_status : elem.innerHTML,
+                })
+            })
+            .then(() => {
+                window.location.href = "/user/{{user.user_id}}"
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+        }
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>회원들이 생성한 이미지 목록</h1>
+    <table border="1px solid black">
+    <tr>
+        <td>이미지 번호</td>
+        <td>생성한 사람의 id</td>
+        <td>이미지</td>
+        <td>이미지 저장 src</td>
+        <td>이미지 생성 프롬프트</td>
+        <td>좋아요 수</td>
+        <td>생성한 날짜</td>
+        <td>공개 상태</td>
+    </tr>
+    {% for image in images %}
+    <tr>
+    <td><a href="/images/{{image.make_img_number}}">{{image.make_img_number}}</a></td>
+    <td>{{image.user_id}}</td>
+    <td><img src="{{image.img_url}}" width="100px" height="100px"></td>
+    <td>{{image.img_url}}</td>
+    <td>{{image.prompt}}</td>
+    <td>{{image.img_like}}</td>
+    <td>{{image.date}}</td>
+    <td>{{image.img_share}}</td>
+    <td><button onclick="likeImg({{image.make_img_number}})">좋아요</button></td>
+    <td><button onclick="deleteImg({{image.make_img_number}})">삭제</button></td>
+    </tr>
+    {% endfor %}
+    </table>
+    <hr>
+    {% for i in range(start, end) %}
+        {% if page == i %}
+        <strong><a href="/images?page={{i}}">{{i}}</a></strong>
+        {% else %}
+        <a href="/images?page={{i}}">{{i}}</a>
+        {% endif %}
+    {% endfor %}
+    <hr>
+    <a href="/"><button>메인으로</button></a>
+    <script>
+        function deleteImg(no){
+            fetch(`/images/${no}`, {
+                method : "DELETE",
+            })
+            .then((response)=>{
+                if(response.status == 401){
+                    alert("로그인 필요");
+                    window.location.href = "/login";
+                }else if(response.status == 403){
+                    alert("해당 이미지를 생성한 사람의 id가 아님");
+                }else {
+                    window.location.href = "/images";
+                }
+            })
+            .catch((error) => {
+                console.error(error.status);
+            });
+        }
+    </script>
+    <script>
+        function likeImg(no){
+            fetch(`/images/${no}`, {
+                method : "PATCH",
+                headers : { "Content-Type" : "application/json"},
+                body : JSON.stringify({
+                    img_like : 1,
+                }),
+            })
+            .then((response)=>{
+                if(response.status == 404){
+                    alert("로그인 필요");
+                    window.location.href = "/login";
+                }else{
+                    window.location.href = "/images";
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png" />
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/goods.css">
+</head>
+
+<body>
+    {% include "header.html" %}
+    <div class="container">
+        <!-- 사이드 -->
+        <div class="side"></div>
+        <!-- 메인 구성 -->
+        <div class="main">
+            <div class="main_header">
+                <h2>나만의 굿즈 만들어요🖌️</h2>
+            </div>
+            {% for type in types%}
+            <div class="categori">
+                <div class="cate_name">
+                    <h3>{{ type }}</h3>
+                </div>
+                <div class="prd_con">
+                    {% for i in products[type] %}
+                    <div class="prd">
+                        <a href="/goods/{{ i.product_number }}"><img src="{{ i.product_img_url}}" alt=""></a>
+                        <p>{{i.product_name}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- 사이드 -->
+        <div class="side"></div>
+    </div>
+    {% include "footer.html" %}
+    <script src="/js/jquery-3.7.0.js"></script>
+</body>
+
+</html>

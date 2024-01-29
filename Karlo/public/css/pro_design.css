@@ -1,0 +1,247 @@
+
+/* 
+고른 상품에 따라서 각 div 에 다음과 같이 class 를 추가
+
+<div id = back-img    class = 'back-xxxx'> 를 추가해서 사용 
+<div id = space img   class = 'space-xxxx'> 를 추가해서 사용  
+
+*/
+/* cushion */
+/* 배경 - 상품 이미지 */
+.back_5{
+    width: 700px;
+    height: 700px;
+    background-image: url('/imgs/pro_cushion.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 이미지 들어갈 공간 */
+.space_5{
+    width: 300px;
+    height: 300px;
+    background-color: white;
+    overflow:hidden  
+    
+}
+/* cushion-rd */
+.back_6{
+    width: 700px;
+    height: 700px;
+    background-image: url('/imgs/pro_cushion_rd.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space_6{
+    width: 350px;
+    height: 300px;
+    margin: 0 30px 0 0;
+    overflow:hidden  
+    
+}
+
+/* iphone */
+.back_7 , .back_8 , .back_9{
+    width: 700px;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    background-color: lightgray;
+}
+
+.space_7{
+    width: 227px;
+    height: 455px;
+    background: url('/imgs/pro_iphone13.png');
+    background-position-x: -138px ;
+    background-position-y: -17px;
+    border-radius: 40px;
+    margin: 12px 0 0 0; 
+    overflow:hidden
+}
+.up_7{
+    margin: 10px 0 0 12px;
+    z-index: 1;
+    position: relative;
+}
+
+/* gal-s22 */
+.space_8{
+    width: 200px;
+    height: 420px;
+    background-color: lightblue;
+    background: url('/imgs/pro_gal_s22.png') no-repeat;
+    background-position-x: -140px;
+    background-position-y: -35px;
+    border-radius: 25px;
+    margin: 12px 0 0 0; 
+    overflow:hidden
+}
+.up_8{
+    margin: 2px 0 0 -2px;
+    z-index: 1;
+    position: relative;
+}
+
+
+/* gal-a12 */
+.space_9{
+    width: 218px;
+    height: 470px;
+    background-color: lightblue;
+    background: url('/imgs/pro_gal_a12.png');
+    background-position-x: -128px ;
+    background-position-y: -13px;
+    border-radius: 28px;
+    margin: 10px 0 0 0; 
+    overflow:hidden
+}
+
+.up_9{
+    margin: 17px 0 0 20px;
+    z-index: 1;
+    position: relative;
+
+}
+
+
+/* keyring  */
+.back_10{
+    width: 700px;
+    height: 700px;
+    background-image: url('/imgs/pro_keyring.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space_10{
+    width: 198px;
+    height: 187px;
+    margin: 129px 0 0 0;
+    border-top-left-radius: 45%;
+    border-top-right-radius: 45%;
+    border-bottom-left-radius:45% ;
+    border-bottom-right-radius: 45%;
+    background-color: gray;
+    overflow:hidden  
+
+}
+
+/* keyring-sq */
+
+.back_11{
+    width: 700px;
+    height: 700px;
+    background-image: url('/imgs/pro_keyring_sq.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space_11{
+    width: 223px;
+    height: 208px;
+    margin: 92px 0 0 15px;
+    border-radius: 15px;
+    background-color: gray;
+    overflow:hidden  
+
+}
+
+/* 티셔츠 */
+.back_12{
+    width: 700px;
+    height: 700px;
+    background-image: url('/imgs/pro_tshirt.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.space_12{
+    width: 300px;
+    height: 400px;
+    overflow:hidden  
+}
+
+/* tshirt-b */
+
+.back_13{
+    width: 700px;
+    height: 700px;
+    background-image: url('/imgs/pro_tshirt_b.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.space_13{
+    width: 300px;
+    height: 350px;
+    margin-top: 50px;
+    overflow:hidden  
+}
+
+/* 마우스 패드*/
+
+.back_14{
+    width: 700px;
+    height: 700px;
+    background-image: url('/imgs/pro_pad_base.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.space_14{
+    width: 581px;
+    height: 425px;
+    margin: 12px 9px 0 0;
+    border-radius: 22px;
+    overflow:hidden  ;
+
+}
+
+
+/* 장패드 */
+
+.back_15{
+    width: 700px;
+    height: 700px;
+    background-image: url('/imgs/pro_pad_long.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space_15{
+    width: 627px;
+    height: 262px;
+    margin: -90px 22px 0 0;
+    border-radius: 15px;
+    overflow:hidden  ;
+    
+}

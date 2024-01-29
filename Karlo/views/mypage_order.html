@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png"/>
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/mypage.css">
+</head>
+<body>
+    {% include "header.html"%}
+    <div class="container">
+        <!-- 사이드 -->
+        <div class="side">
+            <div class="side-left">
+                <ul class="list">
+                    <ul class="tabs">
+                      <a href="/user/{{user.user_id}}/mymodi"><li class="tab-link box1 " data-tab="tab-1">회원정보</li></a>
+                      <a href="/user/{{user.user_id}}/myimage"><li class="tab-link box2 " data-tab="tab-2">이미지확인</li></a>
+                      <a href="/user/{{user.user_id}}/myorder"><li class="tab-link box3 current" data-tab="tab-3">주문내역</li></a>
+                      </ul>
+                  </ul>
+            </div>
+        </div>
+        <!-- 메인 구성 -->
+        <div class="main">
+            <div id="tab-3" class="tab-content">
+
+              <table id="products">
+                <thead class="order_head">
+                  <th class="order1" colspan="2" >주문정보</th>
+                  <th class="order2" colspan="2">상품정보</th>
+                  <th class="order3" colspan="2">결제/배송</th>
+                </thead>
+              <!-- 개인 주문  1회 시작-->
+              {% for order in orders %}
+                <tr class="user_order">
+                  <td class="bor-left">{{order.order_number}}</td>
+                  <td>{{order.date}}</td>
+                  <td rowspan="2" id="order_img" ><img src="{{order.design_url}}" alt="" width="180px" height="180px"></td>
+                  <td rowspan="2">{{order.product_name}}</td>
+                  <td>{{order.order_status}}</td>
+                  <td></td>
+                </tr>
+
+                <tr class="user_order user_un">
+                  <td class="bor-left">{{order.count}}개</td>
+                  <td>{{order.price.toLocaleString()}}원</td>
+                  <td id="product_number" style="display:none;">{{order.product_number}}</td>
+                  <td><a href="https://tracker.delivery/#/kr.epost/운송장번호" target="_blank">배송조회</a>
+                    {% set dif = (today-order.date)/1000/3600/24 %}
+                  <td>
+                    {% if dif < 3 and (['주문확인','결제확인','상품준비중'].indexOf(order.order_status) != -1) %}
+                        <button class="updateBtn" onclick="update_status(this, {{order.order_number}})">주문취소</button>
+                    {% elif order.order_status == '배송중' %}
+                        <button class="updateBtn" onclick="update_status(this, {{order.order_number}})">배송완료</button>
+                    {% elif order.order_status == '주문취소' %}
+                        <button class="updateBtn" onclick="update_status(this, {{order.order_number}})">배송중</button>
+                    {% elif order.order_status == '배송완료' %}
+                    <button class="review_btn">리뷰쓰기</button>
+                    {% endif %}
+                  </td>
+                  </td>
+                </tr>
+              {% endfor %}
+              </table>
+            </div>
+            <!-- 리뷰 작성 모달 -->
+            <div class="review_modal hide">
+              <div class="modal_header">
+                <button id="close_review_modal">X</button>
+              </div>
+              <form action="/review" method="post">
+                <div class="modal_main">
+                  <div class="img_upload">
+                    <div>
+                      <img src="" alt="" class="upload_img">
+                    </div>
+                    <input type="file" id="upload_btn" accept="image/*">
+                  </div>
+                  <div class="review_write">
+                    <textarea name="content" cols="30" rows="10"></textarea>
+                    <input type="hidden" name="product_number" value="" class="review_order_num">
+                    <input type="hidden" name="img_url" value="" id="img_url">
+
+                    <div id="star">
+                      <span class="star">
+                          ★★★★★
+                          <span>★★★★★</span>
+                          <input type="range" name="rate" oninput="drawStar(this)" value="0" step="1" min="0" max="5">
+                      </span>
+                    </div>
+                    <input type="submit" value="후기 남기기" class="review_submit">
+                  </div>
+                
+                </div>
+              </form>
+            </div>
+
+        </div>
+        
+        <!-- 사이드 -->
+        <div class="side"></div>
+    </div>
+    {% include "footer.html"%}
+  <script src="/public/js/jquery-3.7.0.js"></script>
+  <script>
+
+    // table pagenation
+      
+      var rowPerPage = 6; // 보여질 행 
+
+      $('#unnav').remove();
+      var $products = $('#products');
+
+      $products.after('<div id="unnav">');
+
+
+      var $tr = $($products).find('tbody tr');
+      var rowTotals = $tr.length;
+
+      var pageTotal = Math.ceil(rowTotals/ rowPerPage);
+      var i = 0;
+
+      for (; i < pageTotal; i++) {
+        $('<a href="#"></a>')
+            .attr('rel', i)
+            .html(i + 1)
+            .appendTo('#unnav');
+      }
+
+      $tr.addClass('off-screen')
+          .slice(0, rowPerPage)
+          .removeClass('off-screen');
+
+      var $pagingLink = $('#unnav a');
+      $pagingLink.on('click', function (evt) {
+        evt.preventDefault();
+        var $this = $(this);
+        if ($this.hasClass('active')) {
+          return;
+        }
+        $pagingLink.removeClass('active');
+        $this.addClass('active');
+
+        // 시작 행 = 페이지 번호 * 페이지당 행수
+        // 끝 행 = 시작 행 + 페이지당 행수
+
+        var currPage = $this.attr('rel');
+        var startItem = currPage * rowPerPage;
+        var endItem = startItem + rowPerPage;
+
+        $tr.css('opacity', '0.0')
+                .addClass('off-screen')
+                .slice(startItem, endItem)
+                .removeClass('off-screen')
+                .animate({opacity: 1}, 300);
+
+      });     
+      
+      $('#updateImgForm').submit(function(event){
+        event.preventDefault();
+        fetch(`/images/${$('#updateImgForm #img_share').val()}`, {
+          method : "PATCH",
+          headers : {"Content-Type" : "application/json"},
+          body : JSON.stringify({
+            img_share : 1,
+          })
+        })
+        .then(() => {
+          alert("변경 성공");
+          window.location.replace("/user/{{user.user_id}}");
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+
+      $('#deleteImgForm').submit(function(event){
+        event.preventDefault();
+        fetch(`/images/${$('#deleteImgForm #img_del').val()}`, {
+          method : "DELETE",
+        })
+        .then(() => {
+          alert("삭제 성공");
+          window.location.replace("/user/{{user.user_id}}");
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+
+      function update_status(elem, no){
+            console.log(elem);
+            fetch(`/order/${no}`, { 
+                method : "PATCH",
+                headers : { "Content-Type" : "application/json" },
+                body : JSON.stringify({
+                    order_status : elem.innerHTML,
+                })
+            })
+            .then(() => {
+                window.location.href = "/user/{{user.user_id}}/myorder"
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+        }
+        //리뷰 모달
+        //이미지 업로드 기능
+        $("#upload_btn").on("change", function(event) {
+          const formData = new FormData();
+            formData.append('img', this.files[0]);
+            axios.post('/review-img', formData)
+                .then((res) => {
+                    document.getElementById('img_url').value = res.data.img_url;
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+          let file = event.target.files[0];
+          let reader = new FileReader(); 
+          reader.onload = function(e) {
+              $(".upload_img").attr("src", e.target.result);
+          }
+      
+          reader.readAsDataURL(file);
+        });
+        $('.review_btn').on('click',function(){
+          $('.review_modal').removeClass('hide')
+          console.log($(this).parent().siblings('#product_number').text());
+          $('.review_order_num').val($(this).parent().siblings('#product_number').text());
+        })
+        $('#close_review_modal').on('click',()=>{
+          $('.review_modal').addClass('hide')
+        })
+        const drawStar = (target) => {
+          let starRating = Math.floor(target.value);
+          $('.star span').css('width', `${starRating * 20}%`);
+        }
+
+
+    </script>
+</body>
+</html>

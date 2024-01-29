@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png" />
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <!-- 사이드 -->
+    <div class="container">
+    <div class="side"></div>
+
+    <!-- 메인구성 -->
+    <div class="main">
+        <table border="1px solid black">
+            <tr>
+                <td>주문 번호</td>
+                <td>주문자 id</td>
+                <td>상품 번호</td>
+                <td>디자인 img</td>
+                <td>디자인 img url</td>
+                <td>상품 개수</td>
+                <td>가격</td>
+                <td>주소</td>
+                <td>우편번호</td>
+                <td>주문자</td>
+                <td>연락처</td>
+                <td>주문날짜</td>
+                <td>주문상태</td>
+            </tr>
+        {% for order in orders %}
+            <tr>
+                <td>{{order.order_number}}</td>
+                <td>{{order.user_id}}</td>
+                <td>{{order.product_number}}</td>
+                <td><img src="{{order.design_url}}" alt="" width="100px", height="100px"></td>
+                <td>{{order.design_url}}</td>
+                <td>{{order.count}}</td>
+                <td>{{order.price}}</td>
+                <td>{{order.addr}}</td>
+                <td>{{order.addr_post}}</td>
+                <td>{{order.addree}}</td>
+                <td>{{order.phone}}</td>
+                <td>{{order.date}} </td>
+                <td>{{order.order_status}}</td>
+                <td>
+                {% set dif = (today-order.date)/1000/3600/24 %}
+                {% if dif < 3 and (['주문확인','결제확인','상품준비중'].indexOf(order.order_status) != -1) %}
+                    <button class="updateBtn" onclick="update_status(this, {{order.order_number}})">주문취소</button>
+                {% elif order.order_status == '배송중' %}
+                    <button class="updateBtn" onclick="update_status(this, {{order.order_number}})">배송완료</button>
+                {% elif order.order_status == '주문취소' %}
+                    <button class="updateBtn" onclick="update_status(this, {{order.order_number}})">배송중</button>
+                {% elif order.order_status == '배송완료' %}
+                <a href="/review/{{order.product_number}}/write">리뷰쓰기</a>
+                {% endif %}
+                </td> 
+            </tr>
+        {% endfor %}
+        </table>
+        <hr>
+        <a href="/"><button>메인으로</button></a>
+
+        </div>
+    </div>
+    <!-- 사이드 -->
+    <div class="side"></div>
+    
+    {% include "footer.html" %}
+
+    <script>
+        function update_status(elem, no){
+            console.log(elem);
+            fetch(`/order/${no}`, { 
+                method : "PATCH",
+                headers : { "Content-Type" : "application/json" },
+                body : JSON.stringify({
+                    order_status : elem.innerHTML,
+                })
+            })
+            .then(() => {
+                window.location.href = "/user/{{user.user_id}}/order"
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+        }
+    </script>
+</body>
+</html>

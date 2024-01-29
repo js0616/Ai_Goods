@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png" />
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/buy_goods.css">
+    <link rel="stylesheet" href="/css/pro_design.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <div class="container">
+        <!-- 사이드 -->
+        <div class="side"></div>
+        <!-- 메인 구성 -->
+        <div class="main">
+            <!-- 이미지 불러오기 -->
+            <button id="select_img">이미지 선택</button>
+            <!-- 모달 창 -->
+            <div class="img_modal hide">
+                <div class="modal_header">
+                    <button id="close_img_modal">X</button>
+                </div>
+                <div class="img_con">
+                    <!-- 이미지 불러오는 공간 -->
+                </div>
+                <div class="img_modal_footer">
+                    <button id="prev_block"><</button>
+                            <div class="block"></div>
+                            <button id="next_block">></button>
+                </div>
+            </div>
+            <!-- 이미지 디자인 -->
+            <div class="img_design">
+                <!-- 고른 상품의 정보를 back-img 와 img-space에 상품별로 class 를 추가 해서 사용 -->
+                {% set pro_number = product.product_number %}
+                <div id="back-img" class="back_{{product.product_number}}"> 
+                    <div id="img-space" class="space_{{product.product_number}}">
+                        <!-- iphone은 아래 코드가 필요  -->
+                        {% if pro_number ==7 %}
+                        <img src="/imgs/pro_iphone.png" alt="" class="up_{{product.product_number}}">
+                        <!-- iphone 아닐때 -->
+                        {% elif pro_number == 8 %}
+                        <img src="/imgs/pro_gal_s22_cam.png" alt="" class="up_{{product.product_number}}">
+                        {% elif pro_number == 9 %}
+                        <img src="/imgs/pro_gal_a12_cam.png" alt="" class="up_{{product.product_number}}">
+                        {% else %}
+                        <img src="/imgs/pro_iphone.png" alt="" class="up_{{product.product_number}} hide">
+                        {%endif%}
+
+                        <div id="wrapper" class="hide" style="display:inline-block">
+                            <img id="use_image" src="" />
+                            <button id="rot_btn" class=""></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- <button id="capBtn">캡쳐</button> -->
+            </div>
+            <!-- 주문 버튼&모달창 -->
+            <button id="prd_order">주문하기</button>
+            <div class="order_modal hide">
+                <div class="modal_header">
+                    <button id="close_order_modal">X</button>
+                </div>
+                <!-- <form action=""> -->
+                <div class="modal_main">
+                    <div class="user_info">
+                        <table>
+                            <tr>
+                                <th colspan="2">주문 정보</th>
+                            </tr>
+                            <tr>
+                                <td class="label">수령인</td>
+                                <td><input type="text" id="orderee" name="orderee" value="{{user.user_nick}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="label">휴대폰</td>
+                                <td><input type="text" placeholder="-도 입력해주세요" id="phone_num" name="phone" value="{{user.user_phone}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="label">배송지</td>
+                                <td><input type="text" placeholder="우편번호" id="zonecode" name="addr_post" value="{{user.user_post}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td><input type="text" placeholder="주소" id="address" name="addr" value="{{user.user_addr}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="label"></td>
+                                <td><input type="text" placeholder="상세주소" id="address_detail" name="addr_de" value="{{user.user_addr_de}}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="order_info">
+                        <table>
+                            <tr>
+                                <th colspan="2">결제 정보</th>
+                            </tr>
+                            <tr>
+                                <td class="label">상품명</td>
+                                <td class="info_content">
+                                    <span>{{product.product_name}}</span>
+                                    <input type="hidden" value="" name="design_url" id="design_url">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">가격</td>
+                                <td class="info_content">
+                                    <span>{{ product.product_price.toLocaleString() }}</span>
+                                    <span>원</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">수량</td>
+                                <td class="info_content">
+                                    <input type="number" value="1" name="count" id="count">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">총 가격</td>
+                                <td class="info_content">
+                                    <span id="total_price">{{ product.product_price.toLocaleString() }}</span>
+                                    <input type="hidden" value="{{ product.product_price }}" name="price" id="price">
+                                    <span>원</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="order_modal_footer">
+                    <button id="order_pay">결제하기</button>
+                </div>
+                <!-- </form> -->
+            </div>
+            <!-- 사이드 -->
+            <div class="side"></div>
+        </div>
+        </div>
+        {% include "footer.html" %}
+        <script src="/js/jquery-3.7.0.js"></script>
+        <!-- jQuery UI CSS Reference -->
+        <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet"
+            type="text/css" />
+        <!-- jQuery Reference (required for jQuery UI) -->
+        <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+        <!-- jQuery UI Reference -->
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+        <!-- 모달 창 스크립트 -->
+        <!-- <script src="/js/pro_design.js"></script> -->
+        <!-- 주소 찾기 -->
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+            
+            let data = [];
+
+            "{% for img in imgs %}"
+            data.push({ url: "{{img}}" });
+            "{% endfor %}"
+            //이미지 선택 모달
+            //모달창 이미지 출력용 함수
+            //let data = [{ url: '/generated/generated_img2text_20230808143832.png' }, {}, {}, {}, {}, {}, { url: '/generated/generated_img2text_20230808084521.png' }, {}, {}, {}, {}, {}, { url: '/generated/generated_img2text_20230807155535.png' }, {}, {}] // DB에서 가져올 데이터
+            let totalImg = data.length; //총 이미지 수
+            let imgNum = 6;    //한 페이지에 출력되는 이미지 수 
+            let blockNum = 10; //한번에 출력될 수 있는 최대 블록 수
+            let totalBlock = totalImg % 6 == 0 ? totalImg / 6 : parseInt(totalImg / 6) + 1;  //블록의 총 수
+            let currentBlock = 1; // 현재 블록의 위치
+
+            function blockBtn() {
+                for (let i = 1; i <= totalBlock; i++) {
+                    $('.block').append(`<button>${i}</button>`)
+                }
+            }
+            function printImg(block) {
+                $('.img_con').empty();
+                let len = block == totalBlock ? totalImg :  6 + 6 * (block - 1)
+                for (let i = 1 + 6 * (block - 1); i <= len; i++) {
+                    $('.img_con').append(`<img src="${data[i - 1].url}" alt="" onclick="imgSelect(this)">`)
+                }
+            }
+            //모달창 이미지 출력
+            blockBtn()
+            $('#prev_block').on('click', () => {
+                if (currentBlock == 1) {
+                    return;
+                } else {
+                    currentBlock -= 1
+                    printImg(currentBlock)
+                }
+            })
+            $('#next_block').on('click', () => {
+                if (currentBlock == totalBlock) {
+                    return;
+                } else {
+                    currentBlock += 1
+                    printImg(currentBlock)
+                }
+            })
+            //이미지 컨테이너로 불러오기
+            function imgSelect(e) {
+                console.log($(e).attr('src'))
+                $('#use_image').attr('src', $(e).attr('src'))
+                $('.img_modal').addClass('hide')
+            }
+            //이미지 모달창 on/off
+            $('#select_img').on('click', () => {
+                printImg(1)
+                currentBlock = 1
+                $('.img_modal').removeClass('hide')
+            })
+            $('#close_img_modal').on('click', () => {
+                $('.img_modal').addClass('hide')
+            })
+
+
+
+            //주문 모달창 on/off
+            $('#prd_order').on('click', () => {
+                $('.order_modal').removeClass('hide')
+            })
+            $('#close_order_modal').on('click', () => {
+                $('.order_modal').addClass('hide')
+            })
+
+            // 모달창 움직이기    
+            $('.img_modal').draggable();
+            $('.order_modal').draggable();
+
+
+        </script>
+        <script>
+            function address() {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        $('#zonecode').val(data.zonecode)
+                        $('#address').val(data.address)
+                    }
+                }).open();
+            }
+            $('#zonecode').on('click', () => {
+                address()
+                $('#address_detail').focus()
+            })
+            $('#address').on('click', () => {
+                address()
+                $('#address_detail').focus()
+            })
+        </script>
+        <script>
+
+            // 이미지 드래그 , 크기조절
+            $(function () {
+                $('#wrapper').draggable();
+                $('#use_image').resizable();
+            });
+
+            // 이미지 회전
+            let clickX = 0;
+            let moveX = 0;
+            let lastX = 0;
+
+            $('#rot_btn').on('mousedown', (e) => {
+                let isClick = true;
+
+                clickX = e.screenX;
+
+                window.addEventListener('mousemove', (e) => {
+                    if (isClick) {
+
+                        const nowX = e.screenX;
+                        moveX = lastX + clickX - nowX;
+
+                        $('#wrapper').css({
+                            'transform': `rotate(${(moveX) / 2}deg)`
+                        })
+                    }
+                })
+
+                window.addEventListener('mouseup', (e) => {
+                    if (isClick) {
+                        isClick = false
+                    }
+                })
+            })
+
+
+            // 이미지 클릭시 보이고 
+            $('#use_image').on('click', () => {
+                $('#img-space').css({ 'overflow': 'visible' })
+                $('#use_image').css({ 'opacity': '0.7' })
+                $('#rot_btn').removeClass('hide')
+            })
+
+            // 배경 클릭시 빈 공간에 들어감
+            $('body').on('click', () => {
+                $('#img-space').css({ 'overflow': 'hidden' })
+                $('#use_image').css({ 'opacity': '1' })
+                $('#rot_btn').addClass('hide')
+            })
+
+
+            function dataURLtoFile(dataurl, filename) {
+                var arr = dataurl.split(','),
+                    mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[arr.length - 1]), 
+                    n = bstr.length, 
+                    u8arr = new Uint8Array(n);
+                while(n--){
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new File([u8arr], filename, {type:mime});
+            }
+            $(function () {
+                $("#capBtn").on("click", function () {
+                    // 캡쳐할 영역을 html2canvas로 캡쳐하여 canvas로 변환
+                    html2canvas(document.querySelector("#back-img")).then(canvas => {
+                        saveImg(canvas.toDataURL('image/png'), "capture-test.png");
+                    });
+
+                });
+
+                // 캡쳐된 파일을 저장하는 함수
+                function saveImg(uri, filename) {
+                    var link = document.createElement('a');
+                    if (typeof link.download === 'string') {
+                        link.href = uri;
+                        link.download = filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    } else {
+                        window.open(uri);
+                    }
+                }
+            });
+
+        </script>
+        <script>
+            $('#count').change(() => {
+                $('#total_price').text(("{{product.product_price}}" * $('#count').val()).toLocaleString());
+                $('#price').val("{{product.product_price}}" * $('#count').val());
+            })
+        </script>
+        <!-- 결제 -->
+        <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+        <script>
+            $('#order_pay').click(function (e) {
+                e.preventDefault();
+                let IMP = window.IMP;
+                IMP.init("imp01087767")
+
+                // IMP.request_pay(param, callback) 결제창 호출
+                IMP.request_pay({ // param
+                    pg: "html5_inicis",
+                    pay_method: "card",
+                    merchant_uid: "ORD" + new Date().toISOString().replaceAll("-","").replaceAll(":", "").replaceAll(".","") + "{{product.product_number}}",
+                    name: "{{product.product_name}}",
+                    amount: 100,
+                    buyer_email: "{{user.user_email}}",
+                    buyer_name: $('#orderee').val(),
+                    buyer_tel: $('#phone_num').val(),
+                    buyer_addr: $('#address').val() + $('#address_detail').val(),
+                    buyer_postcode: $('#zonecode').val(),
+                }, function (rsp) { // callback
+                    if (rsp.success) {
+                        // 결제 성공 시 로직
+                        console.log('결제성공');
+
+                        html2canvas(document.getElementById("back-img")).then(canvas => {
+                            let img_base64 = canvas.toDataURL("image/png");
+                                        
+                            //Usage example:
+                            let file = dataURLtoFile(img_base64,'test.png');
+                            console.log(file);
+                            let formData = new FormData();
+                            formData.append('img', file);
+                            axios.post('/design-img', formData)
+                                .then((res) => {
+                                    console.log(res.data);
+                                    fetch("/order", {
+                                        method : "POST",
+                                        headers : { "Content-Type" : "application/json"},
+                                        body : JSON.stringify({
+                                            product_number : "{{product.product_number}}",
+                                            design_url : res.data.img_url,
+                                            count : $('#count').val(),
+                                            price : $('#price').val(),
+                                            addr : $('#address').val(),
+                                            addr_de : $('#address_detail').val(),
+                                            addr_post : $('#zonecode').val(),
+                                            addree : $('#orderee').val(),
+                                            phone : $('#phone_num').val(),
+                                        }),
+                                    })
+                                    .then(()=>{
+                                        alert("성공");
+                                        window.location.replace("/user/{{user.user_id}}/order");
+                                    }).catch((error) => {
+                                        console.error(error);
+                                    })
+                                })
+                                .catch((err) => {
+                                    console.error(err);
+                                })
+                        });
+                    } else {
+                        // 결제 실패 시 로직
+                        console.log('결제실패')
+                    }
+                });
+            })
+
+        </script>
+</body>
+
+</html>

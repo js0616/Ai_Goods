@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1px solid black">
+        <tr>
+            <td>회원 id</td>
+            <td>{{user.user_id}}</td>
+        </tr>
+        <tr>
+            <td>회원 pw</td>
+            <td>{{user.user_pw}}</td>
+        </tr>
+        <tr>
+            <td>회원 닉네임</td>
+            <td>{{user.user_nick}}</td>
+        </tr>
+        <tr>
+            <td>회원 연락처</td>
+            <td>{{user.user_phone}}</td>
+        </tr>
+        <tr>
+            <td>회원 주소</td>
+            <td>{{user.user_addr}}</td>
+        </tr>
+        <tr>
+            <td>회원 우편번호</td>
+            <td>{{user.user_post}}</td>
+        </tr>
+        <tr>
+            <td>회원 이메일</td>
+            <td>{{user.user_email}}</td>
+        </tr>
+        <tr>
+            <td>회원 성별</td>
+            <td>{{user.user_sex}}</td>
+        </tr>
+        <tr>
+            <td>회원 나이</td>
+            <td>{{user.user_age}}</td>
+        </tr>
+        <tr>
+            <td>회원 생일</td>
+            <td>{{user.user_birth}}</td>
+        </tr>
+        <tr>
+            <td>회원 구분</td>
+            <td>{{user.user_class}}</td>
+        </tr>
+    </table>
+    <a href="/user/{{user.user_id}}/image"><button>이미지 목록</button></a>
+    <a href="/user/{{user.user_id}}/order"><button>주문 목록</button></a>
+    <a href="/update"><button>회원정보 수정</button></a>
+</body>
+</html>

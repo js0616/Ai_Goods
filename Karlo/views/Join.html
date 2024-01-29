@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="./CSS/Join.css">
+    <script defer src="./JS/Join.js"></script>
+    <script src="/js/jquery-3.7.0.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    
+</head>
+
+<body>
+    <div class="container">
+        <form id="form" action="/user/signup" method="post">
+            <div class="title">
+                <h1>회원가입</h1>
+            </div>
+            <div class="input-control">
+                <input id="user_id" type="text" placeholder="아이디를 입력해 주세요" name="user_id">
+            </div>
+            <div class="input-control">
+                <input id="password" type="text" placeholder="비밀번호를 입력해 주세요" name="user_pw">
+                <div class="error" id="passwordError"></div>
+            </div>
+            <div class="input-control">
+                <input id="passwordCheck" type="text" placeholder="비밀번호를 다시 입력해 주세요" name="user_pw2">
+                <div class="error" id="passwordCheckError"></div>
+            </div>
+            <div class="input-control">
+                <input id="name" type="text" placeholder="닉네임을 입력해 주세요" name="user_nick">
+                <div class="error" id="nickError"></div>
+            </div>
+            <div class="input-control">
+                <input id="name" type="text" placeholder="연락처를 입력해 주세요" name="user_phone">
+                <div class="error" id="nickError"></div>
+            </div>
+            <div class="input-control">
+                <input type="text" placeholder="우편번호를 입력해 주세요" name="user_post" id="zonecode" >
+            </div>
+            <div class="input-control">
+                <input type="text" placeholder="주소를 입력해 주세요" name="user_addr" id="address" >
+            </div>
+            <div class="input-control">
+                <input type="text" placeholder="상세주소를 입력해 주세요" name="user_addr_de" id="address_detail" >
+            </div>
+            <div class="input-control">
+                <input type="text" placeholder="이메일을 입력해 주세요" name="user_email" id="user_email">
+                <div class="error" id="emailError"></div>
+            </div>
+            <div >
+                <input type="radio" name="user_sex" value="male" id="male"> 남자
+                <input type="radio" name="user_sex" value="female" id="female"> 여자
+            </div>
+            <div class="input-control">
+                <input type="number" placeholder="나이를 입력해 주세요" name="user_age" id="user_age">
+            </div>
+            <div class="input-control">
+                <input type="text" placeholder="생일을 입력해 주세요 (YYYYMMDD)" name="user_birth" id="user_birth">
+            </div>
+            <div>
+
+            </div>
+            <button type="submit" id="signupBtn">가입하기</button>
+
+            </form>
+
+    </div>
+</body>
+
+</html>

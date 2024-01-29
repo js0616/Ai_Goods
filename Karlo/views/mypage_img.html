@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png" />
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="/css/mypage.css">
+</head>
+
+<body>
+    {% include "header.html"%}
+    <div class="container">
+        <!-- 사이드 -->
+        <div class="side">
+            <div class="side-left">
+                <ul class="list">
+                    <ul class="tabs">
+                        <a href="/user/{{user.user_id}}/mymodi">
+                            <li class="tab-link box1 " data-tab="tab-1">회원정보</li>
+                        </a>
+                        <a href="/user/{{user.user_id}}/myimage">
+                            <li class="tab-link box2 current" data-tab="tab-2">이미지확인</li>
+                        </a>
+                        <a href="/user/{{user.user_id}}/myorder">
+                            <li class="tab-link box3 " data-tab="tab-3">주문내역</li>
+                        </a>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+        <!-- 메인 구성 -->
+        <div class="main">
+
+            <div id="tab-2">
+                <!-- 내 이미지 출력 공간 -->
+                <div class="img_con"></div>
+                <!-- 이미지 상세 모달 -->
+                <div class="img_detail_modal hide">
+                    <div class="modal_header">
+                        <button id="close_modal">X</button>
+                    </div>
+                    <div class="modal_main">
+                        <div class="select_img">
+                            <img src="" alt="">
+                        </div>
+                        <div class="img_info">
+                            <p>prompt</p>
+                            <div id="use_prompt" class="prompt_div"></div>
+                            <p>negative prompt</p>
+                            <div id="use_ne_prompt" class="prompt_div"></div>
+                            <div class="modal_btn">
+                                <form id="updateImgForm">
+                                    <input type="hidden" value="" name="img_number" id="img_share">
+                                    <input type="submit" value="공유하기" class="modal_submit" id="updateBtn">
+                                </form>
+                                <form id="deleteImgForm">
+                                    <input type="hidden" value="" name="img_number" id="img_del">
+                                    <input type="submit" value="삭제하기" class="modal_submit">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- 이미지 페이지 이동 버튼 -->
+                <div class="btn_area">
+                    <button id="prev_block"></button>
+                    <div class="block"></div>
+                    <button id="next_block"></button>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <!-- 사이드 -->
+        <div class="side"></div>
+    </div>
+    {% include "footer.html"%}
+    <script src="/public/js/jquery-3.7.0.js"></script>
+    <script>
+
+
+        // 내 이미지 출력
+        let data = []; // DB에서 가져올 데이터
+        {% for image in images %}
+        data.push({
+            make_img_number: '{{image.make_img_number}}',
+            url: '{{image.img_url}}',
+            prompt: '{{image.prompt}}',
+            ne_prompt: '{{image.ne_prompt}}',
+            img_share: '{{image.img_share}}',
+        });
+        {% endfor %}
+        let totalImg = data.length; //총 이미지 수
+        let imgNum = 6;    //한 페이지에 출력되는 이미지 수 
+        let blockNum = 10; //한번에 출력될 수 있는 최대 블록 수
+        let totalBlock = totalImg % 6 == 0 ? totalImg / 6 : parseInt(totalImg / 6) + 1;  //블록의 총 수
+        let currentBlock = 1; // 현재 블록의 위치
+        //블록 생성 함수
+        function blockBtn(startNum) {
+            $('.block').empty();
+            let start = parseInt(startNum / 10) * 10 + 1;
+            let end = parseInt(startNum / 10) * 10 + 10;
+            if (startNum % 10 == 0) {
+                start -= 10;
+                end -= 10;
+            }
+            if (startNum >= totalBlock) {
+                end = startNum;
+            }
+            if (end > totalBlock) {
+                end = totalBlock;
+            }
+
+            for (let i = start; i <= end; i++) {
+                if (i == startNum) $('.block').append(`<button class="block_btn current_block" onclick="blockMove(${startNum})"><strong>${startNum}</strong></button>`)
+                else $('.block').append(`<button class="block_btn" onclick="blockMove(${i})">${i}</button>`)
+            }
+        }
+        //이미지 출력 함수
+        function printImg(block) {
+            $('.img_con').empty();
+            let len = block == totalBlock ? totalImg : imgNum + imgNum * (block - 1)
+            for (let i = 1 + imgNum * (block - 1); i <= len; i++) {
+                $('.img_con').append(`
+                    <div class="my_img" onclick="imgSelect(this)">
+                    <img src="${data[i - 1].url}" alt="">
+                    <p class="make_img_number hide">${data[i - 1].make_img_number}</p>
+                    <p class="prompt hide">${data[i - 1].prompt}</p>
+                    <p class="ne_prompt hide">${data[i - 1].ne_prompt}</p>
+                    <p class="img_share hide">${data[i - 1].img_share}</p>
+                    </div>
+                `)
+            }
+        }
+        //블록 버튼 이벤트 함수
+        function blockMove(num) {
+            currentBlock = num;
+            printImg(currentBlock)
+            blockBtn(currentBlock)
+        }
+        $('#prev_block').on('click', () => {
+            if (currentBlock == 1) {
+                return;
+            } else {
+                currentBlock -= 10
+                if (currentBlock < 1) {
+                    currentBlock = 1
+                }
+                printImg(currentBlock)
+                blockBtn(currentBlock)
+            }
+        })
+        $('#next_block').on('click', () => {
+            if (currentBlock == totalBlock) {
+                return;
+            } else {
+                currentBlock += 10
+                if (currentBlock > totalBlock) {
+                    currentBlock = totalBlock
+                }
+                printImg(currentBlock)
+                blockBtn(currentBlock)
+            }
+        })
+        //이미지 출력
+        printImg(1)
+        blockBtn(1)
+
+        //모달 기능
+        function imgSelect(e) {
+            $('.img_detail_modal').removeClass('hide')
+            $('.select_img img').attr('src', $(e).children('img').attr('src'))
+            $('#use_prompt').text($(e).children('.prompt').text())
+            $('#use_ne_prompt').text($(e).children('.ne_prompt').text())
+            $('#img_share').attr('value', $(e).children('.make_img_number').text())
+            $('#img_del').attr('value', $(e).children('.make_img_number').text())
+            $('#updateBtn').attr('value', $(e).children(`.img_share`).text() == 0 ? '공유하기' : '공유해제');
+        }
+        $('#close_modal').on('click', () => {
+            $('.img_detail_modal').addClass('hide')
+        })
+
+
+        $('#updateImgForm').submit(function (event) {
+            event.preventDefault();
+            fetch(`/images/${$('#updateImgForm #img_share').val()}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    img_share: 1,
+                })
+            })
+                .then(() => {
+                    alert("변경 성공");
+                    window.location.replace("/user/{{user.user_id}}/myimage");
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+        });
+
+        $('#deleteImgForm').submit(function (event) {
+            event.preventDefault();
+            fetch(`/images/${$('#deleteImgForm #img_del').val()}`, {
+                method: "DELETE",
+            })
+                .then(() => {
+                    alert("삭제 성공");
+                    window.location.replace("/user/{{user.user_id}}/myimage");
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+        });
+
+        function update_status(elem, no) {
+            console.log(elem);
+            fetch(`/order/${no}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    order_status: elem.innerHTML,
+                })
+            })
+                .then(() => {
+                    window.location.href = "/user/{{user.user_id}}"
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+        }
+
+
+    </script>
+</body>
+
+</html>

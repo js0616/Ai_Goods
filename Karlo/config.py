@@ -1,0 +1,2 @@
+REST_API_KEY = 'cea5a987554b0c6e069985ee920ba624'
+NODEJS_SERVER_URL = 'http://localhost:3000'

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png"/>
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/goods_detail.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="container">
+        <!-- 사이드 -->
+        <div class="side"></div>
+        <!-- 메인 구성 -->
+        <div class="main">
+            <!-- 상품 정보 -->
+            <div class="prd_con">
+                <div  class="prd_img">
+                    <img src="{{product.product_img_url}}" alt="">
+                </div>
+                <div class="prd_info">
+                    <table>
+                        <tr>
+                            <th colspan="2">{{product.product_name}}</th>
+                        </tr>
+                        <tr>
+                            <td class="label">가격</td>
+                            <td>{{product.product_price.toLocaleString() }}원</td>
+                        </tr>
+                        <tr>
+                            <td class="label">상품 종류</td>
+                            <td>{{product.product_type}}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">상품 설명</td>
+                            <td>{{product.product_content}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <form action="/goods/{{product.product_number}}/write" class="move_design">
+                                    <input type="hidden" name="" value="{{product.product_number}}">
+                                    <input type="submit" value="디자인하기">
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- 상품 후기 -->
+            <div class="review_con">
+                <!-- js로 상품 데이터 출력 -->
+            </div>
+            <div class="btn_con">
+                <button id="prev_block"></button>
+                <div class="block"></div>
+                <button id="next_block"></button>
+            </div>
+        </div>
+        <!-- 사이드 -->
+        <div class="side"></div>
+    </div>
+    {% include "footer.html" %}
+    <script src="/js/jquery-3.7.0.js"></script>
+    <script>
+        let data = [];
+        {% for review in reviews %}
+            data.push({
+                nick : "{{review.user_id}}",
+                img_url : "{{review.img_url}}",
+                content : "{{review.content}}",
+                rate : "{{review.rate}}",
+            });
+        {% endfor %}
+
+        let totalImg = data.length; //총 리뷰 수
+        let dataNum = 5;    //한 페이지에 출력되는 리뷰 수 
+        let blockNum = 10; //한번에 출력될 수 있는 최대 블록 수
+        let totalBlock = totalImg%dataNum == 0 ? totalImg/dataNum : parseInt(totalImg/dataNum)+1;  //블록의 총 수
+        let currentBlock = 1; // 현재 블록의 위치
+        //블록 생성 함수
+        function blockBtn(startNum) {
+            $('.block').empty();
+            let start = parseInt(startNum / 10) * 10 + 1;
+            let end = parseInt(startNum / 10) * 10 + 10;
+            if (startNum % 10 == 0) {
+                start -= 10;
+                end -= 10;
+            }
+            if (startNum >= totalBlock) {
+                end = startNum;
+            }
+            if (end > totalBlock) {
+                end = totalBlock;
+            }
+
+            for (let i = start; i <= end; i++) {
+                if (i == startNum) $('.block').append(`<button class="block_btn current_block" onclick="blockMove(${startNum})"><strong>${startNum}</strong>&nbsp;</button>`)
+                else $('.block').append(`<button class="block_btn" onclick="blockMove(${i})">${i}&nbsp;</button>`)
+            }
+        }
+        function printData(block){
+            $('.review_con').empty();
+            let len = block == totalBlock ? totalImg : dataNum + dataNum * (block - 1)
+            if(data.length > 0){
+                for(let i = 1 + dataNum * (block-1); i <= len; i++){
+                    $('.review_con').append(`
+                    <div class="user_review">
+                        <div class="user_nick">${data[i-1].nick}</div>
+                        <div class="review_content">
+                            <img class="review_img" src="${data[i-1].img_url}" alt="">
+                            <span>${data[i-1].content}</span>
+                            </div>
+                            <div class="review_rate">${'★'.repeat(data[i-1].rate)}</div>
+                            </div>`)
+                        }
+                    }
+        }
+                //블록 버튼 이벤트 함수
+                function blockMove(num) {
+                    currentBlock = num;
+                    printData(currentBlock);
+                    blockBtn(currentBlock);
+                }
+                $('#prev_block').on('click', () => {
+                    if (currentBlock == 1) {
+                        return;
+                    } else {
+                        currentBlock -= 10;
+                        if (currentBlock < 1) {
+                            currentBlock = 1
+                        }
+                        printData(currentBlock);
+                        blockBtn(currentBlock);
+                    }
+                })
+                $('#next_block').on('click', () => {
+                    if (currentBlock == totalBlock) {
+                        return;
+                    } else {
+                        currentBlock += 10
+                        if (currentBlock > totalBlock) {
+                            currentBlock = totalBlock;
+                        }
+                        printData(currentBlock);
+                        blockBtn(currentBlock);
+                    }
+                })
+
+        printData(1)
+        blockBtn(1)
+
+
+    </script>
+</body>
+</html>

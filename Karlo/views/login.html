@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="./CSS/Login.css">
+    <script defer src="./JS/Login.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <p class="LoginTitle">Login</p>
+        <p class="title"><b>아이굿즈</b>에 오신 것을 환영합니다.</p>
+        <p id="error" style="display: none;">이메일과 비밀번호를 확인해 주세요.</p>
+        <div class='Box'>
+            <form action="/user/login" class="LoginBox" id="LoginBox" method="post">
+                <input type="text" name="user_id" id="username" placeholder="아이디를 입력해 주세요.">
+                <input type="password" name="user_pw" id="password" placeholder="비밀번호를 입력해 주세요.">
+                <div class="LoginBtnbox">
+                    <button id="LoginBtn">로그인</button>
+                </div>
+                    <div class="SocialLogin" id="kakaoBtn">
+                        <button class="KakaoBtn"><img src="/imgs/kakao_login_medium_wide.png" alt=""
+                                width="287px"></button>
+                    </div>
+                <ul class="underMenu">
+                    <li><a href="/Join" class="stylelink">회원가입</a></li>
+                    <li><a class="stylelink" id="FindIdLink">ID찾기</a></li>
+                    <li><a class="stylelink" id="FindPwLink">PW찾기</a></li>
+                </ul>
+            </form>
+        </div>
+    </div>
+    <div id="modalWrap" class="modalWrap">
+        <div id="modalContent" class="modalContent">
+            <div id="modalBody" class="modalBody">
+                <!--  //닫기 버튼 -->
+                <span id="closeBtn" class="closeBtn">&times;</span>
+                <!--//팝업창 내 글귀  -->
+                <div class="PhoneNumbody">
+                    <div class="bodyWrapper">
+                        <div class="header">
+                            <div class="title">
+                                <p class="title_id">ID 찾기</p>
+                                <div class="bodyData">
+                                    <div class="bodyDataTitle">
+                                        <p>휴대폰 인증</p>
+                                        <div class="bodyDataClass">
+                                            <div class="bodyDataTitleValue">
+                                                <span class="bodyDataTitleKey">이름</span>
+                                                <input type="text" class="inputname" placeholder="이름을 입력해 주세요." value=""
+                                                    autocomplete="off" spellcheck="false">
+                                                <div class="bodyDataTitleValue">
+                                                    <span class="bodyDataTitleKey">전화번호</span>
+                                                    <div>
+                                                        <input type="text" class="inputNum" placeholder="전화번호를 입력해 주세요."
+                                                            value="" autocomplete="off" spellcheck="false">
+                                                        <span class="SendNumBtn">
+                                                            <button disabled class="mobileBtn" type="button">인증번호
+                                                                요청</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="FindidBtnWrapper">
+                            <span class="FindidBtn">
+                                <button disabled class="Findidsubmit">아이디 찾기</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modalWrap2" class="modalWrap">
+        <div id="modalContent2" class="modalContent">
+            <div id="modalBody2" class="modalBody">
+                <span id="closeBtn2" class="closeBtn">&times;</span>
+                <div class="FindPwWrapper">
+                    <div class="FindPwHeader">
+                        <p>비밀번호 재설정</p>
+                    </div>
+                    <div class="FindPwbody">
+                        <form class="resetPw">
+                            <div class="resetPwValue">
+                                <span  class="resetPwKey">이메일</span>
+                                <input type="text" name="email" class="resetPwInput" placeholder="이메일을 입력해 주세요." autocomplete="off" spellcheck="flase">
+                            </div>
+                            <div class="resetPwBtnWrapper">
+                                <button disabled class="resetPwBtn" data-fill="100" data-text_size="normal">비밀번호 재설정 메일 전송</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</html>

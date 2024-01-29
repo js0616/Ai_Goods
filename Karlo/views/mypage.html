@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png"/>
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="/css/mypage.css">
+</head>
+<body>
+    {% include "header.html"%}
+    <div class="container">
+        <!-- 사이드 -->
+        <div class="side">
+            <div class="side-left">
+                <ul class="list">
+                    <ul class="tabs">
+                        <li class="tab-link box1 current" data-tab="tab-1">회원정보</li>
+                        <li class="tab-link box2 " data-tab="tab-2">이미지확인</li>
+                        <li class="tab-link box3 " data-tab="tab-3">주문내역</li>
+                      </ul>
+                  </ul>
+            </div>
+        </div>
+        <!-- 메인 구성 -->
+        <div class="main">
+            
+            <div id="tab-1" class="tab-content current">
+              
+              <form action="/user/update" method="post">
+                <table> 
+                  {% if user.user_class == 0 %}
+                  <tr>
+                    <th>아이디</th>
+                    <td colspan="2"><input type="text" value='{{user.user_id}}' name="user_id" readonly id="user_id"></td>
+                  </tr>
+
+                  <tr>
+                    <th><label for="user_pw">비밀번호</label></th>
+                    <td colspan="2"><input type="password" name="user_pw" id="user_pw"></td>
+                  </tr>
+                  <tr>
+                    <th><label for="user_pw2">비밀번호 확인</label></th>
+                    <td colspan="2"><input type="password" name="user_pw2" id="user_pw2"></td>
+                  </tr>
+                  <tr>
+                    <td class="error"></td>
+                    <td id="error_pw2" class="error" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    {% endif %}
+                    <th><label for="user_nick">닉네임</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_nick}}" name="user_nick" id="user_nick" {% if user.user_class != 0 %} readonly {% endif %}></td>
+                  </tr>
+                  <tr>
+                    <th><label for="user_phone">연락처</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_phone}}" name="user_phone" id="user_phone"></td>
+                  </tr>
+                  <tr>
+                    <th><label for="zonecode">우편번호</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_post}}" name="user_post" id="zonecode" readonly></td>
+                  </tr>
+                  <tr>
+                    <th><label for="address">주소</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_addr}}" name="user_addr" id="address" readonly></td>
+                  </tr>
+                  <tr>
+                    <th><label for="address_detail">상세주소</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_addr_de}}" name="user_addr_de" id="address_detail" ></td>
+                  </tr>
+                  <tr>
+                    <th><label for="user_email">이메일</label></th>
+                    <td colspan="2"><input type="text" value="{{user.user_email}}" name="user_email" id="user_email" {% if user.user_class != 0 %} readonly {% endif %}></td>
+                  </tr>
+                  
+                  <tr>
+                    <td class="error"></td>
+                    <td id="error_email" class="error" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <th>성별</th>
+                    <td>{{ user.user_sex }}</td> 
+                  </tr>
+                  <tr>
+                    <th> <label for="user_age">나이</label></th>
+                    <td colspan="2"><input type="text" id="user_age" name="user_age" value="{{user.user_age}}"></td>
+                  </tr>
+                  <tr>
+                    <th><label for="user_birth">생일</label></th>
+                    <td colspan="2"><input type="text" id="user_birth" name="user_birth" value="{{user.user_birth}}"></td>
+                  </tr> 
+              </table>
+              <div class="user_btn">
+                <input type="submit" value="정보 수정하기" class="submit">
+
+              </div>
+              
+            </form>
+            
+            </div>
+
+
+
+            <div id="tab-2" class="tab-content">
+                  <!-- 내 이미지 출력 공간 -->
+            <div class="img_con"></div>
+            <!-- 이미지 상세 모달 -->
+            <div class="img_detail_modal hide">
+                <div class="modal_header">
+                    <button id="close_modal">X</button>
+                </div>
+                <div class="modal_main">
+                    <div class="select_img">
+                        <img src="" alt="">
+                    </div>
+                    <div class="img_info">
+                        <p>prompt</p>
+                        <div id="use_prompt" class="prompt_div"></div>
+                        <p>negative prompt</p>
+                        <div id="use_ne_prompt" class="prompt_div"></div>
+                        <div class="modal_btn">
+                            <form id="updateImgForm">
+                                <input type="hidden" value="" name="img_number" id="img_share">
+                                <input type="submit" value="공유하기" class="modal_submit" id="updateBtn">
+                            </form>
+                            <form id="deleteImgForm">
+                                <input type="hidden" value="" name="img_number" id="img_del">
+                                <input type="submit" value="삭제하기" class="modal_submit">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+         
+            </div>
+            <!-- 이미지 페이지 이동 버튼 -->
+            <div class="btn_area">
+                <button id="prev_block"></button>
+                <div class="block"></div>
+                <button id="next_block"></button>
+            </div>
+
+
+            </div>
+
+            
+            <div id="tab-3" class="tab-content">
+
+              <table id="products">
+                <thead class="order_head">
+                  <th class="order1" colspan="2" >주문정보</th>
+                  <th class="order2" colspan="2">상품정보</th>
+                  <th class="order3" colspan="2">결제/배송</th>
+                </thead>
+              <!-- 개인 주문  1회 시작-->
+              {% for order in orders %}
+                <tr class="user_order">
+                  <td class="bor-left">{{order.order_number}}</td>
+                  <td>{{order.date}}</td>
+                  <td rowspan="2" id="order_img" ><img src="{{order.design_url}}" alt="" width="180px" height="180px"></td>
+                  <td  rowspan="2">{{order.product_name}}</td>
+                  <td>{{order.order_status}}</td>
+                  {% if order.order_status == '배송완료' %}
+                  <td><a href="/review/{{order.product_number}}/write"><button>후기작성</button></a></td>
+                  {% endif %}
+                </tr>
+
+                <tr class="user_order user_un">
+                  <td class="bor-left">{{order.count}}개</td>
+                  <td>{{order.price.toLocaleString()}}원</td>
+
+                  <td><a href="https://tracker.delivery/#/kr.epost/운송장번호" target="_blank">배송조회</a>
+                    {% set dif = (today-order.date)/1000/3600/24 %}
+                  <td>
+                    {% if dif < 3 and (['주문확인','결제확인','상품준비중'].indexOf(order.order_status) != -1) %}
+                        <button class="updateBtn" onclick="update_status(this, {{order.order_number}})">주문취소</button>
+                    {% elif order.order_status == '배송중' %}
+                        <button class="updateBtn" onclick="update_status(this, {{order.order_number}})">배송완료</button>
+                    {% elif order.order_status == '주문취소' %}
+                        <button class="updateBtn" onclick="update_status(this, {{order.order_number}})">배송중</button>
+                    {% elif order.order_status == '배송완료' %}
+                    <a href="/review/{{order.product_number}}/write">리뷰쓰기</a>
+                    {% endif %}
+                  </td>
+                  </td>
+                </tr>
+              {% endfor %}
+              </table>
+            </div>
+        </div>
+        
+        <!-- 사이드 -->
+        <div class="side"></div>
+    </div>
+    {% include "footer.html"%}
+  <script src="/public/js/jquery-3.7.0.js"></script>
+  <script>
+      $(document).ready(function(){
+
+          $('ul.tabs li').click(function(){
+            var tab_id = $(this).attr('data-tab');
+        
+            $('ul.tabs li').removeClass('current');
+            $('.tab-content').removeClass('current');
+        
+            $(this).addClass('current');
+            $("#"+tab_id).addClass('current');
+          })
+        
+        })
+
+      
+      function address(){
+          new daum.Postcode({
+              oncomplete: function(data) {
+                  $('#zonecode').val(data.zonecode)
+                  $('#address').val(data.address)
+              }
+          }).open();
+      }
+      $('#zonecode').on('click',()=>{
+          address()
+          $('#address_detail').focus()
+      })
+      $('#address').on('click',()=>{
+          address()
+          $('#address_detail').focus()
+      })
+
+
+      
+      // 경고메세지 
+      {% if user.user_class == 0 %}
+      // pw 확인
+      user_pw2.onblur = function(){
+        if(user_pw2.value != user_pw.value){
+          user_pw2.classList.add('invalid');
+          error_pw2.innerHTML = 'pw를 확인해주세요'
+        }
+      }
+
+      user_pw2.onfocus = function(){
+        if (this.classList.contains('invalid')) {
+          // 사용자가 새로운 값을 입력하려고 하므로 에러 메시지를 지움
+          this.classList.remove('invalid');
+          error_pw2.innerHTML = "";
+        }
+      }
+      {% endif %}
+      // email
+      user_email.onblur = function() {
+        if (!user_email.value.includes('@')) {  // @ 유무를 이용해 유효한 이메일 주소가 아닌지 체크
+          user_email.classList.add('invalid');
+          error_email.innerHTML = '올바른 이메일 주소를 입력하세요.'
+        }
+      };
+      
+      user_email.onfocus = function() {
+        if (this.classList.contains('invalid')) {
+          // 사용자가 새로운 값을 입력하려고 하므로 에러 메시지를 지움
+          this.classList.remove('invalid');
+          error_email.innerHTML = "";
+        }
+      };
+
+
+    // 내 이미지 출력
+    let data = []; // DB에서 가져올 데이터
+      {% for image in images %}
+          data.push({
+            make_img_number : '{{image.make_img_number}}',
+            url : '{{image.img_url}}',
+            prompt : '{{image.prompt}}',
+            ne_prompt : '{{image.ne_prompt}}',
+            img_share : '{{image.img_share}}',
+          });
+        {% endfor %}
+        console.log(data.length);
+        let totalImg = data.length; //총 이미지 수
+        let imgNum = 6;    //한 페이지에 출력되는 이미지 수 
+        let blockNum = 10; //한번에 출력될 수 있는 최대 블록 수
+        let totalBlock = totalImg%6 == 0 ? totalImg/6 : parseInt(totalImg/6)+1;  //블록의 총 수
+        let currentBlock = 1; // 현재 블록의 위치
+        //블록 생성 함수
+        function blockBtn(startNum){
+            $('.block').empty();
+            $('.block').append(`<button class="block_btn current_block" onclick="blockMove(${startNum})">${startNum}</button>`)
+            for(let i=startNum+1;i<blockNum+startNum&&i<=totalBlock;i++){
+                $('.block').append(`<button class="block_btn" onclick="blockMove(${i})">${i}</button>`)
+            }
+        }
+        //이미지 출력 함수
+        function printImg(block){
+            $('.img_con').empty();
+            let len = block == totalBlock ? totalImg :  imgNum + imgNum * (block - 1)
+            for(let i=1+imgNum*(block-1);i<=len;i++){
+                $('.img_con').append(`
+                    <div class="my_img" onclick="imgSelect(this)">
+                    <img src="${data[i-1].url}" alt="">
+                    <p class="make_img_number hide">${data[i-1].make_img_number}</p>
+                    <p class="prompt hide">${data[i-1].prompt}</p>
+                    <p class="ne_prompt hide">${data[i-1].ne_prompt}</p>
+                    <p class="img_share hide">${data[i-1].img_share}</p>
+                    </div>
+                `)
+            }
+        }
+        //블록 버튼 이벤트 함수
+        function blockMove(num){
+            currentBlock=num
+            printImg(currentBlock)
+            blockBtn(currentBlock)
+        }
+        $('#prev_block').on('click',()=>{
+            if(currentBlock==1){
+                return;
+            }else{
+                currentBlock -= 1
+                printImg(currentBlock)
+                blockBtn(currentBlock)
+            }
+        })
+        $('#next_block').on('click',()=>{ 
+            if(currentBlock==totalBlock){
+                return;
+            }else{
+                currentBlock += 1
+                printImg(currentBlock)
+                blockBtn(currentBlock)
+            }
+        })
+        //이미지 출력
+        printImg(1)
+        blockBtn(1)
+
+        //모달 기능
+        function imgSelect(e){
+            $('.img_detail_modal').removeClass('hide')
+            $('.select_img img').attr('src',$(e).children('img').attr('src'))
+            $('#use_prompt').text($(e).children('.prompt').text())
+            $('#use_ne_prompt').text($(e).children('.ne_prompt').text())
+            $('#img_share').attr('value',$(e).children('.make_img_number').text())
+            $('#img_del').attr('value',$(e).children('.make_img_number').text())
+            $('#updateBtn').attr('value', $(e).children(`.img_share`).text() == 0 ? '공유하기' : '공유해제');
+        }
+        $('#close_modal').on('click',()=>{
+            $('.img_detail_modal').addClass('hide')
+        })
+
+
+    // table pagenation
+      
+      var rowPerPage = 6; // 보여질 행 
+
+      $('#unnav').remove();
+      var $products = $('#products');
+
+      $products.after('<div id="unnav">');
+
+
+      var $tr = $($products).find('tbody tr');
+      var rowTotals = $tr.length;
+
+      var pageTotal = Math.ceil(rowTotals/ rowPerPage);
+      var i = 0;
+
+      for (; i < pageTotal; i++) {
+        $('<a href="#"></a>')
+            .attr('rel', i)
+            .html(i + 1)
+            .appendTo('#unnav');
+      }
+
+      $tr.addClass('off-screen')
+          .slice(0, rowPerPage)
+          .removeClass('off-screen');
+
+      var $pagingLink = $('#unnav a');
+      $pagingLink.on('click', function (evt) {
+        evt.preventDefault();
+        var $this = $(this);
+        if ($this.hasClass('active')) {
+          return;
+        }
+        $pagingLink.removeClass('active');
+        $this.addClass('active');
+
+        // 시작 행 = 페이지 번호 * 페이지당 행수
+        // 끝 행 = 시작 행 + 페이지당 행수
+
+        var currPage = $this.attr('rel');
+        var startItem = currPage * rowPerPage;
+        var endItem = startItem + rowPerPage;
+
+        $tr.css('opacity', '0.0')
+                .addClass('off-screen')
+                .slice(startItem, endItem)
+                .removeClass('off-screen')
+                .animate({opacity: 1}, 300);
+
+      });     
+      
+      $('#updateImgForm').submit(function(event){
+        event.preventDefault();
+        fetch(`/images/${$('#updateImgForm #img_share').val()}`, {
+          method : "PATCH",
+          headers : {"Content-Type" : "application/json"},
+          body : JSON.stringify({
+            img_share : 1,
+          })
+        })
+        .then(() => {
+          alert("변경 성공");
+          window.location.replace("/user/{{user.user_id}}");
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+
+      $('#deleteImgForm').submit(function(event){
+        event.preventDefault();
+        fetch(`/images/${$('#deleteImgForm #img_del').val()}`, {
+          method : "DELETE",
+        })
+        .then(() => {
+          alert("삭제 성공");
+          window.location.replace("/user/{{user.user_id}}");
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+      });
+
+      function update_status(elem, no){
+            console.log(elem);
+            fetch(`/order/${no}`, { 
+                method : "PATCH",
+                headers : { "Content-Type" : "application/json" },
+                body : JSON.stringify({
+                    order_status : elem.innerHTML,
+                })
+            })
+            .then(() => {
+                window.location.href = "/user/{{user.user_id}}"
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+        }
+
+
+    </script>
+</body>
+</html>

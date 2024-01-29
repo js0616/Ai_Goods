@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png"/>
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/css/main33.css">
+    
+
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="container">
+        <!-- 사이드 -->
+        <div class="side"></div>
+
+
+        <!-- 메인 구성 -->
+        <div class="main">
+            <div class="texta box">
+                <h2 class="text1">
+                    AI-GOODS <br>
+                </h2>
+                </div>
+        
+                <div class="box"></div>
+            
+            <div>
+                <div class="section1">
+                    <div class="image1 imgb box2"></div>
+                    <div class="texta box3">
+                </div>
+            </div>
+        
+         
+        
+            <div class="section1">
+                <div class="image2 imgb box2"></div>
+                <div class="texta box3" >
+                    <h4 class="hideme text2">
+                        이미지는<br>
+                        간단하게 
+                       </h4>
+                </div>
+            </div>
+        
+            <div class="box5"></div>
+            <div class="texta box">
+                <h4 class="text3">
+                    디자인은 창의적으로
+                </h4>
+            </div>
+        
+            <div class="image3 imgb box"></div>
+            <div class="image4 imgb box"></div>
+            
+            <div class="texta box">
+                <div class="text4">
+                    세상에 <br>
+                    단 하나뿐인,  <br>
+                    나만의 Goods <br>
+                </div>
+            </div>
+            <div class="box4"></div>
+          <!-- 222  -->
+            
+            <div class="box4">
+                <div class="text">
+                    <p>Ai 그림</p>
+                    
+                </div>
+                <div class="goods">
+                    <div class="move">
+                        <a href="/images">더 보기</a>
+                    </div>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"><img src="/imgs/ssample.png" alt="11"></div>
+                                <div class="swiper-slide"><img src="/imgs/sampleimg2.png" alt="11"></div>
+                                <div class="swiper-slide"><img src="/imgs/sampleimg6.png" alt="11"></div>
+                                <div class="swiper-slide"><img src="/imgs/sampleimg8.png" alt="11"></div>
+                                <div class="swiper-slide"><img src="/imgs/sampleimg7.png" alt="11"></div>
+                                <div class="swiper-slide"><img src="/imgs/sampleimg3.png" alt="11"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                </div>
+        
+            </div>
+            <!-- 333  -->
+            <div class="box6"></div>
+
+            <div class="box4">
+                <div class="text">
+                    <p>굿즈 제작</p>
+                </div>
+                <div class="goods">
+                    <div class="move">
+                        <a href="/goods">더 보기</a>
+                    </div>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"><img src="/imgs/pro_iphone13.png" alt="11"></div>
+                                <div class="swiper-slide"><img src="/imgs/pro_gal_s22.png" alt="11"></div>
+                                <div class="swiper-slide"><img src="/imgs/pro_gal_a12.png" alt="11"></div>
+                                <div class="swiper-slide"><img src="/imgs/pro_tshirt.png" alt="12"></div>
+                                <div class="swiper-slide"><img src="/imgs/pro_cushion.png" alt="12"></div>
+                                <div class="swiper-slide"><img src="/imgs/pro_pad_base.png" alt="12"></div>
+                                <div class="swiper-slide"><img src="/imgs/pro_keyring_sq.png" alt="12"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>   
+                </div>
+        
+            </div>
+
+        </div>
+        <div class="box6"></div>
+        
+        
+        <!-- 사이드 -->
+        <div class="side"></div>
+    </div>
+    </div>
+    {% include "footer.html" %}
+    <script src="/js/jquery-3.7.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <script>
+
+        
+        // Swiper JS - Initialize Swiper
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,
+            spaceBetween: 100,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+        });
+
+
+    </script>
+</body>
+</html>

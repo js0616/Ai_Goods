@@ -1,0 +1,159 @@
+/*이미지 생성 기능으로 이동*/
+.make_move{
+    width: 8%;
+    min-width: 150px;
+    height: 300px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    top: 150px;
+    left: 4%;
+}
+.make_move a{
+    display: inline-block;
+    min-width: 150px;
+    height: 130px;
+    font-size: 25px;
+    font-weight: 500;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid lightgray;
+    border-radius: 25px;
+    background-color: rgba(68,196,232,0.7);
+    margin: 5px 0;
+}
+.make_move span{
+    position: relative;
+    top: 35px;
+}
+/*이미지 정렬 방식*/
+.img_order{
+    height: 100px;
+    box-sizing: border-box;
+    padding: 20px;
+}
+.img_order a{
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    background-color: aliceblue;
+}
+/*출력 이미지*/
+.img_con{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.print_img{
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+}
+.save_img{
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+}
+.save_img img{
+    width: 200px;
+    height: auto;
+    border: 1px solid whitesmoke;
+    border-radius: 15px;
+}
+.save_img img:hover{
+    filter: brightness(0.5);
+}
+
+/* 모달 창 */
+/*이미지 상세 모달*/
+.img_detail_modal{
+    width: 1200px;
+    height: 650px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+.modal_header{
+    height: 50px;
+    border-radius: 10px 10px 0 0;
+    background-color: lightcyan;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    justify-content: right;
+}
+.modal_header button{
+    width: 40px;
+    font-size: 25px;
+    font-weight: bold;
+    border: none;
+    background-color: lightcyan;
+    cursor: pointer;
+}
+.modal_main{
+    height: 600px;
+    display: flex;
+}
+/*선택 이미지 출력*/
+.select_img{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.select_img img{
+    width: 90%;
+    height: auto;
+    border-radius: 15px;
+}
+/*선택 이미지 프롬프트*/
+.like{
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+}
+.like span{
+    font-size: 20px;
+}
+.img_info{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.img_info p{
+    font-style: italic;
+    margin-bottom: 5px;
+}
+.prompt_div{
+    width: 90%;
+    min-height: 100px;
+    font-size: 20px;
+    font-weight: 300;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-bottom: 60px;
+    padding: 5px 10px;
+}

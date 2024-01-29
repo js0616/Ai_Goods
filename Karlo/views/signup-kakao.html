@@ -1,0 +1,40 @@
+<!-- public/signup.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Signup</title>
+  </head>
+  <body>
+    <h1>Signup</h1>
+    <form action="/user/signup" method="post">
+      <label>ID:</label>
+      <input type="text" name="user_id" value="{{user.email}}" readonly />
+      <br />
+      <label>Username:</label>
+      <input type="text" name="user_nick" value="{{user.profile.nickname}}" readonly/>
+      <br />
+      <label>phone:</label>
+      <input type="text" name="user_phone" required />
+      <br />
+      <label>address:</label>
+      <input type="text" name="user_addr" required />
+      <br />
+      <label>우편주소:</label>
+      <input type="text" name="user_post" required />
+      <br />
+      <label>Email:</label>
+      <input type="text" name="user_email" value="{{user.email}}" readonly />
+      <br />
+      <label>성별:</label>
+      <input type="text" name="user_sex" value="{{user.gender}}" readonly/>
+      <br />
+      <label>나이:</label>
+      <input type="text" name="user_age"/>
+      <br />
+      <label>생일:</label>
+      <input type="text" name="user_birth" value="{{user.birthday}}" readonly/>
+      <br />
+      <input type="submit" value="Signup" />
+    </form>
+  </body>
+</html>

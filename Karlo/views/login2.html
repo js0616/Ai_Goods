@@ -1,0 +1,23 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+  <form action="/user/login" method="post">
+    <label>id:</label>
+    <input type="text" name="user_id" required>
+    <br>
+    <label>Password:</label>
+    <input type="password" name="user_pw" required>
+    <br>
+    <input type="submit" value="Login">
+  </form>
+  <br>
+  <a href="/signup">Signup</a>
+  <a href="/user/kakao">kakao login</a>
+  <a href="/"><button>메인으로</button></a>
+</body>
+</html>

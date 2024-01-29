@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>회원이 생성한 이미지 목록</h1>
+    <table border="1px solid black">
+        <tr>
+            <td>이미지 번호</td>
+            <td>생성한 사람의 id</td>
+            <td>이미지</td>
+            <td>이미지 저장 src</td>
+            <td>이미지 생성 프롬프트</td>
+            <td>좋아요 수</td>
+            <td>생성한 날짜</td>
+            <td>공개 상태</td>
+        </tr>
+        {% for image in images %}
+        <tr>
+        <td><a href="/images/{{image.make_img_number}}">{{image.make_img_number}}</a></td>
+        <td>{{image.user_id}}</td>
+        <td><img src="{{image.img_url}}" width="100px" height="100px"></td>
+        <td>{{image.img_url}}</td>
+        <td>{{image.prompt}}</td>
+        <td>{{image.img_like}}</td>
+        <td>{{image.date}}</td>
+        <td>{{image.img_share}}</td>
+        <td><button onclick="deleteImg({{image.make_img_number}})">삭제</button></td>
+        <td><button onclick="updateImg({{image.make_img_number}})">공개하기</button></td>
+        </tr>
+        {% endfor %}
+        </table>
+        <a href="/"><button>메인으로</button></a>
+        <script>
+            function deleteImg(no){
+                fetch(`/images/${no}`, {
+                    method : "DELETE",
+                })
+                .then(()=>{
+                    window.location.href = "/user/{{user.user_id}}/image";
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            }
+            function updateImg(no){
+                fetch(`/images/${no}`, {
+                    method : "PATCH",
+                    headers : { "Content-Type" : "application/json"},
+                    body : JSON.stringify({
+                        img_share : 1,
+                    })
+                })
+                .then(() => {
+                    window.location.href = "/user/{{user.user_id}}/image"
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+            }
+        </script>
+</body>
+</html>

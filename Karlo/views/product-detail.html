@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>상품 정보</h1>
+    {{product.product_number}}, {{product.product_name}}, {{product.product_type}}, {{product.product_price}}, {{product.product_content}}
+    <br><a href="/goods/{{product.product_number}}/write"><button>주문하기</button></a>
+    <hr>
+    <h1>상품 이미지</h1>
+    {{product.product_img_url}}
+    <hr>
+    <h1>상품 리뷰</h1>
+    {% for review in product.reviews %}
+        {{review.review_number}}, {{review.user_id}}, {{review.product_number}}, {{review.content}}, {{review.img_url}}, {{review.date}} <br>
+    {% endfor %}
+    <hr>
+    <a href="/goods"><button>상품 목록 페이지</button></a><a href="/"><button>메인페이지</button></a>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" sizes="16x16 32x32 64x64" href="/imgs/아이굿즈 로고1.png" />
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/profile-order.css">
+</head>
+<body>
+    {% include "header.html" %}
+    <!-- 사이드 -->
+    <div class="container">
+    <div class="side"></div>
+
+    <!-- 메인구성 -->
+    <div class="main">
+        <h3>구매해주셔서 감사합니다</h3>
+    
+    <div class="btna">
+        <a href="/main">메인으로</a>
+        <a href="/user/{{user.user_id}}/myorder">주문확인</a>
+    </div>
+    
+    </div>
+
+
+    <!-- 사이드 -->
+    <div class="side"></div>
+    </div>
+    {% include "footer.html" %}
+
+    <script>
+        function update_status(elem, no){
+            console.log(elem);
+            fetch(`/order/${no}`, { 
+                method : "PATCH",
+                headers : { "Content-Type" : "application/json" },
+                body : JSON.stringify({
+                    order_status : elem.innerHTML,
+                })
+            })
+            .then(() => {
+                window.location.href = "/user/{{user.user_id}}/order"
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+        }
+    </script>
+</body>
+</html>

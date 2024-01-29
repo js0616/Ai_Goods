@@ -1,0 +1,104 @@
+
+
+body {
+    background: #ffffff;
+}
+
+div {
+    padding-top: 10px;
+}
+
+
+.container {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    background-color: aliceblue;
+    width: 400px;
+    margin: -100px 0 0 -250px;
+    padding: 40px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+
+}
+
+.title {
+    text-align: center;
+    font-weight: 700;
+}
+
+.input-control {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.email {
+    width: 100%;
+}
+
+.title h1 {
+    margin: 0 0 20px;
+    line-height: 1;
+    color: #44c4e7;
+    font-size: 30px;
+    font-weight: 1000;
+}
+
+.input-control input {
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid #ccc;
+    color: #ccc;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 400;
+    transition: 0.2s linear;
+}
+
+.input-control input:focus {
+    color: #333;
+    border: 1px solid #44c4e7;
+    outline: none; /* 포커스 스타일 제거 */
+}
+
+.error {
+    font-size: 15px;
+    color: red;
+    font-weight: 700;
+}
+
+
+#signupBtn {
+    cursor: pointer;
+    background: #44c4e7;
+    width: 71%;
+    padding: 10px 15px;
+    border: 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 15%;
+}
+
+#signupBtn:hover {
+    background: #369cb8;
+}
+
+.socialBtn {
+    border-style: none;
+    background: none;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 51px;
+}
+
+.socialBtn:hover {
+    opacity: 0.8;
+}
+
+.socialJoin {
+    display: flex;
+    align-items: center;
+}

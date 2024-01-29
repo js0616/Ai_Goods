@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>상품 목록 페이지</h1>
+    <table border="1px solid black">
+    <tr>
+        <td>상품 번호</td>
+        <td>상품 이름</td>
+        <td>상품 타입</td>
+        <td>상품 가격</td>
+        <td>상품 설명</td>
+    </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.product_number }}</td>
+            <td>{{ product.product_name }}</td>
+            <td>{{ product.product_type }}</td>
+            <td>{{ product.product_price }}</td>
+            <td>{{ product.product_content }}</td>
+            <td><a href="/goods/products/{{ product.product_number }}">상세보기</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <hr>
+    <a href="/"><button>메인페이지</button></a>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home Page</title>
+  </head>
+  <body>
+    </form>
+    <h1>회원 기능</h1>
+    <button onclick="logout()">Logout</button>
+    <button onclick="login()">Login</button>
+    <a href="/user/{{user.user_id}}"><button>프로필</button></a>
+    <a href="/update"><button>update</button></a>
+    <a href="/main"><button>메인으로</button></a>
+    <hr>
+    <h1>이미지 기능</h1>
+    <a href="/images"><button>이미지 목록 보기</button></a>
+    <a href="/text2img"><button>이미지 생성 하기</button></a>
+    <a href="/user/{{user.user_id}}/image"><button>내가 생성한 이미지 목록</button></a>
+    <a href="/buy-goods">이미지 합성</a>
+    <hr>
+    <h1>상품 기능</h1>
+    <a href="/goods"><button>상품 목록 보기</button></a>
+    <hr>
+    <h1>주문 기능</h1>
+    <a href="/user/{{user.user_id}}/order"><button>내 주문 목록 보기</button></a>
+    <script>
+      function logout() {
+        // 로그아웃 요청을 서버로 전송 (서버에서 세션 등 로그인 정보를 초기화)
+        fetch("/user/logout", { method: "POST" })
+          .then(() => {
+            // 로그아웃 성공 시 index 페이지로 이동
+            window.location.href = "/";
+          })
+          .catch((error) => {
+            console.error("Error during logout:", error);
+          });
+      }
+    </script>
+    <script>
+      function login() {
+        // 로그아웃 요청을 서버로 전송 (서버에서 세션 등 로그인 정보를 초기화)
+        fetch("/login")
+          .then(() => {
+            window.location.href = "/login";
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    </script>
+    <script>
+      window.onload = function () {
+        const params = new URLSearchParams(window.location.search);
+        const message = params.get("message");
+
+        if (message) {
+          alert(message);
+        }
+      };
+    </script>
+  </body>
+</html>

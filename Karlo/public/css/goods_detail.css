@@ -1,0 +1,133 @@
+/*상품 설명*/
+.prd_con{
+    height: 550px;
+    border-bottom: 1px solid whitesmoke;
+    box-sizing: border-box;
+    padding: 0 25px;
+    padding-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+.prd_img{
+    width: 450px;
+    height: 450px;
+    border: 2px solid lightgrey;
+}
+.prd_img img{
+    width: 450px;
+    height: auto;
+}
+.prd_info{
+    width: 50%;
+    height: 500px;
+    margin-left: 100px;
+}
+.prd_info table{
+    width: 100%;
+    min-width: 600px;
+    height: 500px;
+}
+.prd_info th{
+    height: inherit;
+    text-align: left;
+    font-size: 30px;
+}
+.prd_info td{
+    width: 50%;
+    font-size: 20px;
+    height: 20%;
+}
+.label{
+    width: 200px;
+}
+.move_design{
+    text-align: center;
+}
+.move_design input{
+    width: 80%;
+    height: 40px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    font-size: 20px;
+    color: black;
+    background-color: rgba(68,196,232,0.7);;
+}
+
+/*상품 후기*/
+.review_con{
+    box-sizing: border-box;
+    padding: 0 25px;
+    margin-top: 30px;
+}
+.user_review{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 5px 0;
+}
+.user_nick{
+    width: 15%;
+    box-sizing: border-box;
+    padding: 20px 10px;
+    margin: 0 10px;
+}
+.review_content{
+    width: 60%;
+    display: flex;
+    box-sizing: border-box;
+    margin:0 10px;
+}
+.review_img{
+    width: 200px;
+    height: 200px;
+}
+.review_content span{
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 20px 0;
+    margin: 0 20px;
+}
+.review_rate{
+    width: 15%;
+    font-size: 30px;
+    color: violet
+}
+.btn_con{
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+#prev_block{
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    background-image: url('/imgs/화살표_좌.png');
+    background-size: cover;
+    background-color: white;
+    border: none;
+}
+#next_block{
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    background-image: url('/imgs/화살표_우.png');
+    background-size: cover;
+    background-color: white;
+    border: none;
+}
+.block button{
+    width: 20px;
+    background-color: white;
+    border: none;
+    margin: 0 8px;
+    font-size: 18px;
+}
+.current_block{
+    color : rgba(68,196,232,0.7);
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>회원 정보 수정</h1>
+    <form action="/user/update" method="post">
+        <label>ID:</label>
+        <input type="text" value="{{user.user_id}}" readonly />
+        <br />
+        <label>Password:</label>
+        <input type="password" name="user_pw" required />
+        <br />
+        <label>Username:</label>
+        <input type="text" name="user_nick" value="{{user.user_nick}}" required />
+        <br />
+        <label>phone:</label>
+        <input type="text" name="user_phone" value="{{user.user_phone}}" required />
+        <br />
+        <label>address:</label>
+        <input type="text" name="user_addr" value="{{user.user_addr}}" required />
+        <br />
+        <label>우편주소:</label>
+        <input type="text" name="user_post" value="{{user.user_post}}" required />
+        <br />
+        <label>Email:</label>
+        <input type="text" name="user_email" value="{{user.user_email}}" required />
+        <br />
+        <label>성별:</label>
+        <input type="text" name="user_sex" value="{{user.user_sex}}" required />
+        <br />
+        <label>나이:</label>
+        <input type="text" name="user_age" value="{{user.user_age}}" required />
+        <br />
+        <label>생일:</label>
+        <input type="text" name="user_birth" value="{{user.user_birth}}" required />
+        <br />
+        <input type="submit" value="update" />
+    </form>
+    <button onclick="signout()">회원 탈퇴</button>
+    <script>
+        function signout() {
+            if (confirm("정말 탈퇴하시겠습니까?")) {
+                fetch(`/user/signout/{{user.user_id}}`, {
+                    method: "DELETE"
+                })
+                    .then((res) => {
+                        if (!res.ok) {
+                            throw new Error("문제가 발생했습니다.");
+                        }
+                        alert("탈퇴 성공");
+                        window.location.href = "/"
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    })
+            }
+        }
+    </script>
+</body>
+
+</html>

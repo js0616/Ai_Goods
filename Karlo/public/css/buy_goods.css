@@ -1,0 +1,224 @@
+/*메인 버튼*/
+#select_img{
+    width: 150px;
+    height: 35px;
+    border: 1px solid whitesmoke;
+    border-radius: 15px;
+    position: absolute;
+}
+#prd_order{
+    width: 150px;
+    height: 35px;
+    border: 1px solid whitesmoke;
+    border-radius: 15px;
+    position: absolute;
+    right: 17%;
+    bottom: 50px;
+}
+
+/*이미지 선택 모달 창*/
+.img_modal{
+    width: 1000px;
+    height: 730px;
+    max-height: 730px;
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 10px;
+    position: fixed;
+    z-index: 2;
+}
+.modal_header{
+    height: 50px;
+    border-radius: 10px 10px 0 0;
+    background-color: lightcyan;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    justify-content: right;
+}
+.modal_header button{
+    width: 40px;
+    font-size: 25px;
+    font-weight: bold;
+    border: none;
+    background-color: lightcyan;
+    cursor: pointer;
+}
+.img_con{
+    height: 630px;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
+.img_con img{
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.img_modal_footer{
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+.img_modal_footer button{
+    width: 20px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+.block button{
+    margin: 0 5px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* 주문 모달창 */
+.order_modal{
+    width: 700px;
+    height: 530px;
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 10px;
+    position: fixed;
+    z-index: 2;
+    left: 60%;
+    bottom: 50px;
+}
+.modal_main{
+    width: 100%;
+    height: 400px;
+    display: flex;
+}
+/* 배송 정보 입력 */
+.user_info{
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user_info table{
+    width: 80%;
+    height: 80%;
+    box-sizing: border-box;
+    padding: 15px;
+}
+.user_info th{
+    height: 50px;
+    font-size: 25px;
+}
+.label{
+    width: 100px;
+    height: 40px;
+    font-size: 20px;
+}
+.user_info input{
+    width: 150px;
+    height: 30px;
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+/* 상품 정보 입력 */
+.order_info{
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.order_info table{
+    width: 80%;
+    height: 80%;
+    box-sizing: border-box;
+    padding: 15px;
+}
+.order_info th{
+    height: 50px;
+    font-size: 25px;
+}
+.order_info span{
+    font-size: 20px;
+}
+.order_info input{
+    width: 50px;
+    height: 30px;
+    font-size: 20px;
+    text-align: right;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.info_content{
+    text-align: right;
+}
+/* 결제 */
+.order_modal_footer{
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.order_modal_footer button{
+    width: 300px;
+    height: 50px;
+    font-size: 30px;
+    color: white;
+    border: 1px solid lightgray;
+    border-radius: 25px;
+    background-color: rgb(14, 45, 218);
+    cursor: pointer;
+}
+
+
+/*이미지 디자인*/
+.img_design{
+    height: 750px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+#back-img{
+    height: 700px;
+    border: 5px double lightgray;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#wrapper{
+    left: -30px;
+    top: -150px
+}
+#use_image{
+    width: 500px;
+    height: 500px;
+}
+#rot_btn{
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background-image: url('/imgs/회전아이콘.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    top: 20px;
+    left: 50%;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/layout.css">
+</head>
+<body>
+        <!-- 내비게이션 바 -->
+        <div class="nav">
+            <div id="logo">
+                <a href="/main">
+                    <img src="/imgs/아이굿즈 로고2.png" alt="">
+                </a>
+            </div>
+            <div class="nav_menu" id="nav_image">
+                <a href="/images"><h2>그림 그리기</h2></a>
+                <div class="nav_sub hide">
+                    <a href="/text2img"><h3>텍스트로 그리기</h3></a>
+                    <a href="/img2img"><h3>그림으로 그리기</h3></a>
+                </div>
+            </div>
+            <div class="nav_menu" id="nav_goods">
+                <a href="/goods"><h2>굿즈</h2></a>
+            </div>
+            {% if user.user_id %}
+            <div class="nav_menu" id="nav_user">
+                <a href="/user/{{user.user_id}}/mymodi"><img id="user_profile" src="/imgs/마이페이지.png" alt=""></a>
+                <a href="javascript:void(0);" onclick="logout()"><img class="log_in_out" src="/imgs/로그아웃.png" alt=""></a>
+            </div>
+            {% else %}
+            <div class="nav_menu" id="nav_user">
+                <a href="/login"><img id="user_profile" src="/imgs/마이페이지.png" alt=""></a>
+                <a href="/login"><img class="log_in_out" src="/imgs/로그인.png" alt=""></a>
+            </div>
+            {%endif%}
+        </div>
+        <div class="header"></div>
+        <script src="/js/jquery-3.7.0.js"></script>
+        <script src="/js/nav.js"></script>
+        <script>
+            function logout() {
+              // 로그아웃 요청을 서버로 전송 (서버에서 세션 등 로그인 정보를 초기화)
+              fetch("/user/logout", { method: "POST" })
+                .then(() => {
+                  // 로그아웃 성공 시 index 페이지로 이동
+                  window.location.href = "/main";
+                })
+                .catch((error) => {
+                  console.error("Error during logout:", error);
+                });
+            }
+          </script>
+</body>
+</html>

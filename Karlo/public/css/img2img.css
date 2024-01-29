@@ -1,0 +1,123 @@
+/*이미지 생성*/
+.img2img{
+    box-sizing: border-box;
+    padding-bottom: 50px;
+    display: flex;
+    border-bottom: 1px solid whitesmoke;
+}
+.img_upload{
+    width: 350px;
+    height: 380px;
+    box-sizing: border-box;
+    padding: 30px;
+}
+.upload_img{
+    width: 300px;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+.i2i_prompt{
+    width: 80%;
+    height: 350px;
+    box-sizing: border-box;
+    padding: 30px;
+}
+.i2i_prompt p{
+    font-style: italic;
+    margin: 5px;
+}
+.i2i_prompt .input_text{
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    background-color: white;
+    margin-bottom: 25px;
+    padding: 0 10px;
+    border: 1px solid black;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+}
+.btn_area{
+    display: flex;
+    justify-content: right;
+    align-items: flex-end;
+}
+.btn_area input{
+    width: 200px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 30px;
+}
+/*생성 이미지 출력*/
+.print_con{
+    width: 100%;
+    min-height: 300px;
+}
+.img_con{
+    width: 100%;
+    height: 400px;
+    box-sizing: border-box;
+    padding: 30px;
+    display: flex;
+}
+.img_con form{
+    display: flex;
+    flex-direction: column;
+}
+.img_con img{
+    width: 250px;
+    height: auto;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+.print_prompt{
+    width: 100%;
+    height: 350px;
+    box-sizing: border-box;
+    padding: 30px;
+}
+.print_prompt p{
+    font-style: italic;
+    margin: 5px;
+}
+.use_prompt{
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    background-color: white;
+    margin-bottom: 25px;
+    padding: 0 10px;
+    border: 1px solid black;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+}
+.save_btn{
+    width: 200px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 30px;
+}
+/* 로딩 기능 */
+#load{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    background-color: white;
+    z-index: 10;
+  }
+  #load img{
+    width: 100px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+  }

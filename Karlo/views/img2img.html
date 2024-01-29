@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shorcut icon"
+      sizes="16x16 32x32 64x64"
+      href="/imgs/아이굿즈 로고1.png"
+    />
+    <title>아이굿즈</title>
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/img2img.css" />
+  </head>
+  <body>
+    {% include "header.html" %}
+    <div id="load" class="hide">
+      <img src="/imgs/이미지 생성중.gif" alt="">
+    </div>
+    <div class="container">
+      <!-- 사이드 -->
+      <div class="side"></div>
+      <!-- 메인 구성 -->
+      <div class="main">
+        <!-- 이미지 생성 기능 -->
+        <form
+          action="/images/img2img-success"
+          method="post"
+          id="img_to_img"
+          enctype="multipart/form-data"
+        >
+          <div class="img2img">
+            <div class="img_upload">
+              <img src="" alt="" class="upload_img" />
+              <input
+                type="file"
+                id="upload_btn"
+                accept="image/*"
+                name="file_img"
+              />
+            </div>
+            <div class="i2i_prompt">
+              <div id="prompt">
+                <p>명령어</p>
+                <input type="text" class="input_text" name="i2i_prompt" />
+              </div>
+              <div id="ne_prompt">
+                <p>부정 명령어</p>
+                <input type="text" class="input_text" name="i2i_ne_prompt" />
+              </div>
+              <div class="range" id="range3">
+                <span>이미지 수</span>
+                <input
+                  type="range"
+                  name="samples"
+                  max="4"
+                  min="1"
+                  value="1"
+                  step="1"
+                  oninput="document.getElementById('range_val3').innerHTML=this.value"
+                />
+                <span class="range_text" id="range_val3">1</span>
+              </div>
+              <div class="btn_area">
+                <input
+                  type="submit"
+                  value="이미지 생성"
+                  id="variations_image"
+                  class="submit"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- 생성 이미지 출력 -->
+        <div class="print_con"></div>
+      </div>
+      <!-- 사이드 -->
+      <div class="side"></div>
+    </div>
+    {% include "footer.html" %}
+    <script src="/js/jquery-3.7.0.js"></script>
+    <script>
+      //이미지 업로드 기능
+      $("#upload_btn").on("change", function (event) {
+        let file = event.target.files[0];
+        let reader = new FileReader();
+        reader.onload = function (e) {
+          $(".upload_img").attr("src", e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+      });
+      //로딩
+      $('.submit').on('click',()=>{
+        $('#load').removeClass('hide')
+      })
+    </script>
+    <script>
+      const imgToImgForm = document.querySelector("#img_to_img");
+      const variationsImage = document.querySelector("#variations_image");
+      variationsImage.addEventListener("click", function () {
+        imgToImgForm.submit();
+      });
+
+      imgToImgForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(imgToImgForm);
+
+        console.log(formData);
+
+        if (formData.get("file_img")) {
+          fetch("/img2img-success", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Response from server:", data);
+            })
+            .catch((error) => {
+              console.error("Error during form submission:", error);
+            });
+        } else {
+          console.log("Please fill in both file_img and command_img fields.");
+        }
+      });
+    </script>
+    <script>
+      window.onload = function () {
+        const params = new URLSearchParams(window.location.search);
+        const message = params.get("message");
+
+        if (message) {
+          alert(message);
+        }
+      };
+    </script>
+  </body>
+</html>
